@@ -11286,3 +11286,92 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.navbar-main {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+}
+
+.page-wrap {
+  min-height: 100vh;
+}
+
+.navbar-brand, .nav-link, .my-form, .login-form {
+  font-family: Raleway, sans-serif;
+}
+
+.my-form {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.my-form .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.bg-images-step {
+  width: 98%;
+  height: 198px;
+}
+
+.lightbox-gallery {
+  background-repeat: no-repeat;
+  color: #000;
+  overflow-x: hidden;
+}
+
+.lightbox-gallery p {
+  color: #000;
+}
+
+.lightbox-gallery h2, .lightbox-gallery .h2 {
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #000;
+}
+
+@media (max-width: 767px) {
+  .lightbox-gallery h2, .lightbox-gallery .h2 {
+    margin-bottom: 25px;
+    padding-top: 25px;
+    font-size: 24px;
+  }
+}
+.lightbox-gallery .intro {
+  font-size: 16px;
+  max-width: 500px;
+  margin: 0 auto 40px;
+}
+
+.lightbox-gallery .intro p {
+  margin-bottom: 0;
+}
+
+.lightbox-gallery .photos {
+  padding-bottom: 20px;
+}
+
+.lightbox-gallery .item {
+  padding-bottom: 30px;
+}
+
+.button-container {
+  display: inline-block;
+  position: relative;
+}
+
+.button-container button {
+  position: absolute;
+  bottom: 1em;
+  right: 6em;
+  background-color: rgba(0, 147, 223, 0.7215686275);
+  border-radius: 1.5em;
+  color: white;
+  text-transform: uppercase;
+  padding: 0.3em 1.5em;
+}
+
+.activeSelect {
+  background-color: #97ee0a !important;
+}

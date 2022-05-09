@@ -6,7 +6,13 @@ import authorizer from './store'
 import HomeComponent from './components/page/HomeComponent.vue'
 import Login from './components/auth/LoginComponent.vue'
 import Register from './components/auth/RegisterComponent.vue'
-
+import StepOne from './components/process-patients/StepsOneComponent.vue'
+import StepTwo from './components/process-patients/StepsTwoComponent.vue'
+import StepTree from './components/process-patients/StepsTreeComponent.vue'
+import StepFourt from './components/process-patients/StepsFourtComponent.vue'
+import StepFive from './components/process-patients/StepsFiveComponent.vue'
+import Dashboard from './components/page/DashboardComponent.vue'
+import NotFound from './components/page/NotFoundComponent.vue'
 
 /**
  * @author Jhon Bernal
@@ -17,15 +23,30 @@ Vue.use(Router)
 const router = new Router({
 	mode:'history',
 	routes:[
-		{
-			path:'',name:'home',component:HomeComponent
+    {
+			path:'',name:'home',component:StepOne
+		},
+    {
+			path:'/stepTwo',name:'stepTwo',component:StepTwo
+		},
+    {
+			path:'/stepTree',name:'stepTwo',component:StepTree
+		},
+    {
+			path:'/stepFourt',name:'stepTwo',component:StepFourt
+		},
+    {
+			path:'/stepFive',name:'stepTwo',component:StepFive
 		},
 		{
-			path:'/login',name:'login',component:Login, meta : {guest: true}
+			path:'/dashboard',name:'dashboard',component:Dashboard
 		},
 		{
-			path:'/register',name:'register',component:Register, meta : {guest: true}
+			path:'/admin',name:'login',component:Login, meta : {guest: true}
 		},
+    {
+			path:'**',name:'nofound',component:NotFound
+		}
 	]
 });
 
