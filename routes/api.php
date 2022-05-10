@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PatientController;
+use App\Http\Controllers\StatusController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +22,13 @@ use Illuminate\Support\Facades\Route;
 
  */
 //Route::post('/register', [App\Http\Controllers\Api\AuthController::class, 'register']); 
-Route::post('/login', [App\Http\Controllers\Api\AuthController::class, 'login']); 
+Route::post('/login', [App\Http\Controllers\Api\AuthController::class, 'login']);
+
+Route::post('/access/assessments', [App\Http\Controllers\AssessmentsController::class, 'access'])->name('access-assessments'); 
 
 Route::group(['middleware'=>'jwt.verify'],function(){
-    Route::get('user','AuthController@getUser');
-    Route::resource('todos','TodoController');
+   // Route::get('user','AuthController@getUser');
+    Route::resource('patients',PatientController::class);
+    Route::resource('status',StatusController::class);
+    //Route::resource('todos','TodoController');
 });

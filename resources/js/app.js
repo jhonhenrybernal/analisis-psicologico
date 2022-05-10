@@ -7,6 +7,9 @@ import VueRouter from 'vue-router'
 import router  from './router'
 import store from './store';
 import App from './layout/App'
+import Swal from 'sweetalert2'
+window.Swal = Swal
+
 
 
 
@@ -32,7 +35,7 @@ axios.interceptors.response.use(undefined, function (error) {
     if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
         store.dispatch('logout')
-        return router.push('/login')
+        return router.push('/admin')
     }
     else{
       store.commit('handle_error',JSON.parse(error.response.data.error));
@@ -42,6 +45,7 @@ axios.interceptors.response.use(undefined, function (error) {
 
 Vue.use(VueAxios, axios)
 Vue.use(VueRouter)
+
 
 const app = new Vue({
     store,

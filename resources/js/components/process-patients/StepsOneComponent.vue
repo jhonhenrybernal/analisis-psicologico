@@ -7,6 +7,9 @@
                     <div class="card-header">Iniciar valoración</div>
                       <div class="card-body">
                           <form action="#" @submit.prevent="inforPatients">
+                             <div class="alert" v-bind:class="{'alert-danger':typeAlert}" v-if="alert" role="alert">
+                                {{messageError}}
+                            </div>
                             <div class="row mb-3">
                               <div class="input-group ">
                                 <input  v-model="form.email" placeholder="Correo" class="form-control" autocomplete="off">
@@ -35,6 +38,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
 export default {
   data() {
     return {
@@ -44,14 +48,43 @@ export default {
       },
       show: true,
       value: "",
+      typeAlert:false,
+      alert:false,
+      messageError:''
+
     };
   },
   methods: {
     inforPatients(event) {
       event.preventDefault();
-      localStorage.setItem('email',this.form.email)
-      localStorage.setItem('cod',this.form.cod)
-      this.$router.push('stepTwo') 
+         this.axios
+        .post('http://localhost:8000/api/access/assessments', {email:this.form.email,code:this.form.cod})
+        .then(response => (this.response(response)))
+        .catch(err => this.noAccess(err))
+        .finally(() => this.loading = false)
+      
+    },
+    response(value){
+      if (value.data.status) {
+          this.$router.push('stepTwo')
+         localStorage.setItem('access-assessments',true)
+         localStorage.setItem('cod',this.form.cod)
+      }else{
+        this.alert=true
+        this.typeAlert=true
+        this.typeAlert= 'alert-danger'
+        this.messageError= value.data.message
+      }
+    },
+    noAccess(value){
+      console.log(JSON.parse(value))
+      Swal.fire({
+          title: 'Error!',
+          text: 'No tienes acceso',
+          icon: 'error',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: '<i class="fa fa-thumbs-down"></i> Bueno!'
+        })
     },
     onReset(event) {
       event.preventDefault();

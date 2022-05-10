@@ -23,6 +23,24 @@
               &nbsp;Dashboard</router-link
             >
           </li>
+           <li class="nav-item">
+            <router-link
+              to="/status"
+              class="nav-link"
+              :class="{ active: $route.name === 'status' }"
+            >
+              &nbsp;Estados</router-link
+            >
+          </li>
+           <li class="nav-item">
+            <router-link
+              to="/patient"
+              class="nav-link"
+              :class="{ active: $route.name === 'patientTable' }"
+            >
+              &nbsp;Pacientes</router-link
+            >
+          </li>
         </ul>
         <div class="col-md-3 text-end sing-up navbar-main" v-if="isLoggedIn">
           <button type="button" class="btn btn-primary"  @click="logout()">Cerrar sesion</button>

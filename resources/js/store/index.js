@@ -10,6 +10,7 @@ Vue.use(Vuex)
  * @tutorial https://vuex.vuejs.org/
  */
 export default new Vuex.Store({
+
   state: {
     status: '',
     token: localStorage.getItem('token') || '',
@@ -23,6 +24,7 @@ export default new Vuex.Store({
     auth_success(state, token){
       state.status = 'success'
       state.token = token
+      state.isLoggedIn = true;
     },
     set_user(state,user){
       state.user = user
@@ -33,6 +35,7 @@ export default new Vuex.Store({
     logout(state){
       state.status = ''
       state.token = ''
+      state.isLoggedIn = false;
     },
   },
   actions: {

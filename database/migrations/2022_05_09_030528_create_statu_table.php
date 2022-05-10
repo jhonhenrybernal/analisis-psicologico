@@ -13,10 +13,11 @@ class CreateStatuTable extends Migration
      */
     public function up()
     {
-        Schema::create('status', function (Blueprint $table) {
+        Schema::create('statuses', function (Blueprint $table) {
             $table->id();
-            $table->integer('name');
-            $table->integer('description');
+            $table->string('name');
+            $table->integer('disabled');
+            $table->string('description');
             $table->timestamps();
         });
     }
