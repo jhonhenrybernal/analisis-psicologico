@@ -38,12 +38,30 @@
 </template>
  
 <script>
+
+import Echo from 'laravel-echo'
+window.Pusher = require('pusher-js')
     export default {
         data() {
             return {
+                name: 'PageIndex',
                 patients: [],
                 nameTable:'pacientes'
             }
+        },
+         mounted () {
+            window.Echo = new Echo({
+            broadcaster: 'pusher',
+            key: 'ASDASD2121',
+            wsHost: window.location.hostname,
+            wsPort: 6001,
+            disableStats: true,
+            disableStats: true,
+            forceTLS: false,
+            })
+            window.Echo.channel('patient').listen('patientProcess', (e) => {
+            alert(e.messagge)
+            })
         },
         created() {
             this.axios

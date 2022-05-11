@@ -13,8 +13,9 @@ class AssessmentsController extends Controller
         $assessment = Assessment::where('code_invitation',$request->code)->where('status_id',$invitacion)->with(["patient" => function($q) use ($request){
             $q->where('email', '=', $request->email);
         }])->first();
-        
+         
         if ($assessment) {
+           event(new \App\Events\patientProcess("hola amorshh funciono"));
             return response()->json(['status'=>true, 'message' => '', 'data'=> $assessment], 200);
         }
 
