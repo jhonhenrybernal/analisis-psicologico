@@ -5315,11 +5315,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
 
 /**
  * @author Jhon Bernal
@@ -5327,9 +5322,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  */
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'Login',
   data: function data() {
     return {
+      name: 'Login',
+      alert: false,
+      messageError: '',
+      typeAlert: false,
+      classAlert: '',
       form: {
         email: '',
         password: ''
@@ -5344,8 +5343,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.$store.dispatch('login', this.form).then(function () {
         return _this.$router.push('/dashboard');
       })["catch"](function (err) {
-        return console.log(err);
+        return _this.error(err);
       });
+    },
+    error: function error(value) {
+      this.alert = true;
+      this.classAlert = 'alert-danger';
+      this.messageError = 'Error al acceder verifique correo o contraseña';
     }
   })
 });
@@ -5609,6 +5613,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_1__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -5651,6 +5657,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 
+
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -5671,7 +5678,19 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
       disableStats: true
     }, _defineProperty(_Echo, "disableStats", true), _defineProperty(_Echo, "forceTLS", false), _Echo));
     window.Echo.channel('patient').listen('patientProcess', function (e) {
-      alert(e.messagge);
+      if (e.status) {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
+          title: 'Hola!',
+          text: 'Tienes una nueva valoracion del paciente ' + e.nombrePaciente,
+          icon: 'warning',
+          showCancelButton: true,
+          focusConfirm: false,
+          confirmButtonText: '<i class="fa fa-thumbs-up"></i> Iniciar valoración',
+          confirmButtonAriaLabel: 'Thumbs up, great!',
+          cancelButtonText: '<i class="fa fa-thumbs-down">Luego!</i>',
+          cancelButtonAriaLabel: 'Thumbs down'
+        });
+      }
     });
   },
   created: function created() {
@@ -6320,6 +6339,40 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -41675,7 +41728,7 @@ var render = function () {
       _c("div", { staticClass: "col-md-4 offset-md-4" }, [
         _c("div", { staticClass: "card form-holder" }, [
           _c("div", { staticClass: "card-body pt-5 pb-5" }, [
-            _c("h1", { staticClass: "text-muted" }, [_vm._v("Login")]),
+            _c("h1", { staticClass: "text-muted" }, [_vm._v("Acceso")]),
             _vm._v(" "),
             _c(
               "form",
@@ -41689,8 +41742,28 @@ var render = function () {
                 },
               },
               [
+                _vm.alert
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "alert",
+                        class: { "alert-danger": _vm.classAlert },
+                        attrs: { role: "alert" },
+                      },
+                      [
+                        _vm._v(
+                          "\n                              " +
+                            _vm._s(_vm.messageError) +
+                            "\n                   "
+                        ),
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
-                  _c("label", [_vm._v("Email")]),
+                  _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                    _vm._v("Dirección de correo electrónico"),
+                  ]),
                   _vm._v(" "),
                   _c("input", {
                     directives: [
@@ -41702,7 +41775,11 @@ var render = function () {
                       },
                     ],
                     staticClass: "form-control",
-                    attrs: { type: "text", name: "", placeholder: "Email" },
+                    attrs: {
+                      type: "email",
+                      "aria-describedby": "emailHelp",
+                      placeholder: "Enter email",
+                    },
                     domProps: { value: _vm.form.email },
                     on: {
                       input: function ($event) {
@@ -41716,7 +41793,9 @@ var render = function () {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
-                  _c("label", [_vm._v("Password")]),
+                  _c("label", { attrs: { for: "exampleInputPassword1" } }, [
+                    _vm._v("Clave"),
+                  ]),
                   _vm._v(" "),
                   _c("input", {
                     directives: [
@@ -41728,11 +41807,7 @@ var render = function () {
                       },
                     ],
                     staticClass: "form-control",
-                    attrs: {
-                      type: "password",
-                      name: "",
-                      placeholder: "Password",
-                    },
+                    attrs: { type: "password", placeholder: "Password" },
                     domProps: { value: _vm.form.password },
                     on: {
                       input: function ($event) {
@@ -41745,13 +41820,13 @@ var render = function () {
                   }),
                 ]),
                 _vm._v(" "),
-                _vm.showError
-                  ? _c("p", { staticClass: "text-danger" }, [
-                      _vm._v("Username or Password is incorrect"),
-                    ])
-                  : _vm._e(),
+                _c("div", { staticClass: "form-check" }),
                 _vm._v(" "),
-                _vm._m(0),
+                _c(
+                  "button",
+                  { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+                  [_vm._v("Acceder")]
+                ),
               ]
             ),
           ]),
@@ -41760,27 +41835,7 @@ var render = function () {
     ]),
   ])
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-6 text-left" }, [
-        _c("a", { staticClass: "btn btn-link", attrs: { href: "#" } }, [
-          _vm._v("Forgot Password"),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-6 text-right" }, [
-        _c("input", {
-          staticClass: "btn btn-primary pr-5 pl-5",
-          attrs: { type: "submit", value: " Login " },
-        }),
-      ]),
-    ])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -43646,131 +43701,296 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c(
-      "nav",
-      {
-        staticClass: "navbar navbar-light",
-        staticStyle: { "background-color": "#d2d7db" },
-      },
-      [
-        _c("div", { staticClass: "container-fluid justify-content-center" }, [
-          _c(
-            "ul",
-            {
-              staticClass:
-                "nav col-12 col-md-auto mb-2 justify-content-center mb-md-0",
-            },
-            [
-              _c(
-                "li",
-                { staticClass: "nav-item" },
-                [
-                  _c(
-                    "router-link",
-                    {
-                      staticClass: "nav-link",
-                      class: { active: _vm.$route.name === "home" },
-                      attrs: { to: "/" },
-                    },
-                    [_vm._v("\n             Home")]
-                  ),
-                ],
-                1
-              ),
-            ]
-          ),
-          _vm._v(" "),
-          _vm.isLoggedIn
-            ? _c(
-                "ul",
-                {
-                  staticClass:
-                    "nav col-12 col-md-auto mb-2 justify-content-center mb-md-0",
-                },
-                [
-                  _c(
-                    "li",
-                    { staticClass: "nav-item" },
-                    [
-                      _c(
-                        "router-link",
-                        {
-                          staticClass: "nav-link",
-                          class: { active: _vm.$route.name === "dashboard" },
-                          attrs: { to: "/dashboard" },
-                        },
-                        [_vm._v("\n             Dashboard")]
-                      ),
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "li",
-                    { staticClass: "nav-item" },
-                    [
-                      _c(
-                        "router-link",
-                        {
-                          staticClass: "nav-link",
-                          class: { active: _vm.$route.name === "status" },
-                          attrs: { to: "/status" },
-                        },
-                        [_vm._v("\n             Estados")]
-                      ),
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "li",
-                    { staticClass: "nav-item" },
-                    [
-                      _c(
-                        "router-link",
-                        {
-                          staticClass: "nav-link",
-                          class: { active: _vm.$route.name === "patientTable" },
-                          attrs: { to: "/patient" },
-                        },
-                        [_vm._v("\n             Pacientes")]
-                      ),
-                    ],
-                    1
-                  ),
-                ]
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.isLoggedIn
-            ? _c(
-                "div",
-                { staticClass: "col-md-3 text-end sing-up navbar-main" },
-                [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-primary",
-                      attrs: { type: "button" },
-                      on: {
-                        click: function ($event) {
-                          return _vm.logout()
-                        },
+    !_vm.isLoggedIn
+      ? _c(
+          "nav",
+          {
+            staticClass: "navbar navbar-light",
+            staticStyle: { "background-color": "#d2d7db" },
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "container-fluid justify-content-center" },
+              [
+                _c(
+                  "ul",
+                  {
+                    staticClass:
+                      "nav col-12 col-md-auto mb-2 justify-content-center mb-md-0",
+                  },
+                  [
+                    _c(
+                      "li",
+                      { staticClass: "nav-item" },
+                      [
+                        _c(
+                          "router-link",
+                          {
+                            staticClass: "nav-link",
+                            class: { active: _vm.$route.name === "home" },
+                            attrs: { to: "/" },
+                          },
+                          [_vm._v("\n               Home")]
+                        ),
+                      ],
+                      1
+                    ),
+                  ]
+                ),
+              ]
+            ),
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.isLoggedIn
+      ? _c(
+          "header",
+          {
+            staticClass:
+              "navbar navbar-dark sticky-top bg-primary flex-md-nowrap p-0 shadow",
+          },
+          [
+            _c(
+              "a",
+              {
+                staticClass: "navbar-brand col-md-3 col-lg-2 me-0 px-3",
+                attrs: { href: "#" },
+              },
+              [_vm._v("Espiritual")]
+            ),
+            _vm._v(" "),
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "navbar-nav" }, [
+              _c("div", { staticClass: "nav-item text-nowrap" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "nav-link px-3",
+                    on: {
+                      click: function ($event) {
+                        return _vm.logout()
                       },
                     },
-                    [_vm._v("Cerrar sesion")]
+                  },
+                  [_vm._v("Salir")]
+                ),
+              ]),
+            ]),
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _c("div", { staticClass: "container-fluid" }, [
+      _c("div", { staticClass: "row" }, [
+        _vm.isLoggedIn
+          ? _c(
+              "nav",
+              {
+                staticClass:
+                  "col-md-3 col-lg-2 d-md-block bg-light sidebar collapse",
+                attrs: { id: "sidebarMenu" },
+              },
+              [
+                _c("div", { staticClass: "position-sticky pt-3" }, [
+                  _c("ul", { staticClass: "nav flex-column" }, [
+                    _c(
+                      "li",
+                      { staticClass: "nav-item" },
+                      [
+                        _c(
+                          "router-link",
+                          {
+                            staticClass: "nav-link",
+                            class: {
+                              active: _vm.$route.name === "patientTable",
+                            },
+                            attrs: { to: "/patient" },
+                          },
+                          [
+                            _vm._v("\n                        "),
+                            _c(
+                              "svg",
+                              {
+                                staticClass:
+                                  "feather feather-users align-text-bottom",
+                                attrs: {
+                                  xmlns: "http://www.w3.org/2000/svg",
+                                  width: "24",
+                                  height: "24",
+                                  viewBox: "0 0 24 24",
+                                  fill: "none",
+                                  stroke: "currentColor",
+                                  "stroke-width": "2",
+                                  "stroke-linecap": "round",
+                                  "stroke-linejoin": "round",
+                                  "aria-hidden": "true",
+                                },
+                              },
+                              [
+                                _c("path", {
+                                  attrs: {
+                                    d: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2",
+                                  },
+                                }),
+                                _c("circle", {
+                                  attrs: { cx: "9", cy: "7", r: "4" },
+                                }),
+                                _c("path", {
+                                  attrs: { d: "M23 21v-2a4 4 0 0 0-3-3.87" },
+                                }),
+                                _c("path", {
+                                  attrs: { d: "M16 3.13a4 4 0 0 1 0 7.75" },
+                                }),
+                              ]
+                            ),
+                            _vm._v("Pacientes"),
+                          ]
+                        ),
+                      ],
+                      1
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c("ul", { staticClass: "nav flex-column mb-2" }, [
+                    _c(
+                      "li",
+                      { staticClass: "nav-item" },
+                      [
+                        _c(
+                          "router-link",
+                          {
+                            staticClass: "nav-link",
+                            class: {
+                              active: _vm.$route.name === "statusTable",
+                            },
+                            attrs: { to: "/status" },
+                          },
+                          [
+                            _vm._v("\n                       "),
+                            _c(
+                              "svg",
+                              {
+                                staticClass:
+                                  "feather feather-layers align-text-bottom",
+                                attrs: {
+                                  xmlns: "http://www.w3.org/2000/svg",
+                                  width: "24",
+                                  height: "24",
+                                  viewBox: "0 0 24 24",
+                                  fill: "none",
+                                  stroke: "currentColor",
+                                  "stroke-width": "2",
+                                  "stroke-linecap": "round",
+                                  "stroke-linejoin": "round",
+                                  "aria-hidden": "true",
+                                },
+                              },
+                              [
+                                _c("polygon", {
+                                  attrs: { points: "12 2 2 7 12 12 22 7 12 2" },
+                                }),
+                                _c("polyline", {
+                                  attrs: { points: "2 17 12 22 22 17" },
+                                }),
+                                _c("polyline", {
+                                  attrs: { points: "2 12 12 17 22 12" },
+                                }),
+                              ]
+                            ),
+                            _vm._v("Estados"),
+                          ]
+                        ),
+                      ],
+                      1
+                    ),
+                  ]),
+                ]),
+              ]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.isLoggedIn
+          ? _c("div", [
+              _c(
+                "main",
+                { staticClass: "col-md-9 ms-sm-auto col-lg-10 px-md-4" },
+                [
+                  _c(
+                    "div",
+                    { staticClass: "mt-5 pt-3" },
+                    [_c("router-view")],
+                    1
                   ),
                 ]
-              )
-            : _vm._e(),
-        ]),
-      ]
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "mt-5 pt-3" }, [_c("router-view")], 1),
+              ),
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        !_vm.isLoggedIn
+          ? _c("div", [
+              _c("div", { staticClass: "mt-5 pt-3" }, [_c("router-view")], 1),
+            ])
+          : _vm._e(),
+      ]),
+    ]),
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "navbar-toggler position-absolute d-md-none collapsed",
+        attrs: {
+          type: "button",
+          "data-bs-toggle": "collapse",
+          "data-bs-target": "#sidebarMenu",
+          "aria-controls": "sidebarMenu",
+          "aria-expanded": "false",
+          "aria-label": "Toggle navigation",
+        },
+      },
+      [_c("span", { staticClass: "navbar-toggler-icon" })]
+    )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "h6",
+      {
+        staticClass:
+          "sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase",
+      },
+      [
+        _c("span", [_vm._v("Parametrización del sistema")]),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "link-secondary",
+            attrs: { href: "#", "aria-label": "Add a new report" },
+          },
+          [
+            _c("span", {
+              staticClass: "align-text-bottom",
+              attrs: { "data-feather": "plus-circle" },
+            }),
+          ]
+        ),
+      ]
+    )
+  },
+]
 render._withStripped = true
 
 

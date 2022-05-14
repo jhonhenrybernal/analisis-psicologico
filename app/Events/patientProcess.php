@@ -13,15 +13,19 @@ use Illuminate\Queue\SerializesModels;
 class patientProcess implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $messagge;
+    public string $messagge;
+    public bool $status;
+    public string $nombrePaciente;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($messagge)
+    public function __construct($messagge,$status,$nombrePaciente)
     {
         $this->messagge = $messagge;
+        $this->status = $status;
+        $this->nombrePaciente = $nombrePaciente;
     }
 
     /**

@@ -40,6 +40,7 @@
 <script>
 
 import Echo from 'laravel-echo'
+import Swal from 'sweetalert2'
 window.Pusher = require('pusher-js')
     export default {
         data() {
@@ -60,7 +61,22 @@ window.Pusher = require('pusher-js')
             forceTLS: false,
             })
             window.Echo.channel('patient').listen('patientProcess', (e) => {
-            alert(e.messagge)
+                if (e.status) {
+                    Swal.fire({
+                        title: 'Hola!',
+                        text: 'Tienes una nueva valoracion del paciente '+e.nombrePaciente,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        focusConfirm: false,
+                        confirmButtonText:
+                            '<i class="fa fa-thumbs-up"></i> Iniciar valoración',
+                        confirmButtonAriaLabel: 'Thumbs up, great!',
+                        cancelButtonText:
+                            '<i class="fa fa-thumbs-down">Luego!</i>',
+                        cancelButtonAriaLabel: 'Thumbs down'
+                    })
+                }
+               
             })
         },
         created() {

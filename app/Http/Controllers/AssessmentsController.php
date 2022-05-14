@@ -15,7 +15,7 @@ class AssessmentsController extends Controller
         }])->first();
          
         if ($assessment) {
-           event(new \App\Events\patientProcess("hola amorshh funciono"));
+           event(new \App\Events\patientProcess("Iniciado tratamiento",true,$assessment->patient->firstName." ".$assessment->patient->lastName));
             return response()->json(['status'=>true, 'message' => '', 'data'=> $assessment], 200);
         }
 
