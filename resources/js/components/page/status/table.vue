@@ -38,21 +38,10 @@
             }
         },
         created() {
-            this.axios
-                .get('http://localhost:8000/api/status/')
-                .then(response => {
-                    this.status = response.data;
-                });
+            this.$store.dispatch("getStatus").then(
+                respo=> {
+                    this.status = respo.data.data
+                }).catch(err => this.error(err));
         },
-        methods: {
-            patient(id) { 
-                this.axios
-                    .delete(`http://localhost:8000/api/status/${id}`)
-                    .then(response => {
-                        let i = this.status.map(data => data.id).indexOf(id);
-                        this.status.splice(i, 1)
-                    });
-            }
-        }
     }
 </script>

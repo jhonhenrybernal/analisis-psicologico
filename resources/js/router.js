@@ -22,6 +22,7 @@ import PatientsCreate from './components/page/patient/create.vue'
 import statusTable from './components/page/status/table.vue'
 import statusEdit from './components/page/status/edit.vue'
 import statusCreate from './components/page/status/create.vue'
+import pageAssement from './components/page/assessment/page.vue'
 
 /**
  * @author Jhon Bernal
@@ -65,6 +66,9 @@ const router = new Router({
     {
 			path:'/status/crear',name:'statusCreate',component:statusCreate, beforeEnter: guard
 		},
+    {
+			path:'/assessment',name:'assessment',component:pageAssement, beforeEnter: guard
+		}, 
     {
 			path:'/',name:'home',component:StepOne
 		},

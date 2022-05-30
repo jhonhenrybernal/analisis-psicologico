@@ -17,6 +17,9 @@ export default new Vuex.Store({
     user : {},
     error : '',
   },
+  values:{
+    data:''
+  },
   mutations: {
     auth_request(state){
       state.status = 'loading'
@@ -36,6 +39,14 @@ export default new Vuex.Store({
       state.status = ''
       state.token = ''
       state.isLoggedIn = false;
+    },
+
+    set_patient(values,patient){
+      values.data = patient
+    },
+
+    set_status(values,status){
+      values.data = status
     },
   },
   actions: {
@@ -94,9 +105,28 @@ export default new Vuex.Store({
           resolve(res)
         })
       }); 
-    }
+    },
+    getPatients({commit}){
+      return new Promise((resolve, reject) => {
+        axios({url:'patients',method:'GET'}).then(res =>{
+          commit('set_patient',res.data)
+          resolve(res)
+        })
+      }); 
+    },
+    getStatus({commit}){
+      return new Promise((resolve, reject) => {
+        axios({url:'status',method:'GET'}).then(res =>{
+          commit('set_status',res.data)
+          resolve(res)
+        })
+      }); 
+    },
   },
   getters : {
+    getPatients: values => values.data,
+    getStatus: values => values.data,
+
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
     getUser: state=> state.user,

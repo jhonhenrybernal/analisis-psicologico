@@ -65,37 +65,29 @@ window.Pusher = require('pusher-js')
                     Swal.fire({
                         title: 'Hola!',
                         text: 'Tienes una nueva valoracion del paciente '+e.nombrePaciente,
-                        icon: 'warning',
-                        showCancelButton: true,
-                        focusConfirm: false,
-                        confirmButtonText:
-                            '<i class="fa fa-thumbs-up"></i> Iniciar valoración',
-                        confirmButtonAriaLabel: 'Thumbs up, great!',
-                        cancelButtonText:
-                            '<i class="fa fa-thumbs-down">Luego!</i>',
-                        cancelButtonAriaLabel: 'Thumbs down'
+                        icon: 'info',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: '<i class="fa fa-thumbs-down"></i> Iniciar Valoración!'
+                    }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        this.$router.push("/assessment");
+                    } else if (result.isDenied) {
+                      
+                    }
                     })
+                this.activeNotification =true
                 }
                
             })
         },
+        
         created() {
-            this.axios
-                .get('http://localhost:8000/api/patients/')
-                .then(response => {
-                    this.patients = response.data.data;
-                });
+            this.$store.dispatch("getPatients").then(
+                respo=> {
+                    this.patients = respo.data.data
+                }).catch(err => this.error(err));
         },
-        methods: {
-            patient(id) { 
-                this.axios
-                    .delete(`http://localhost:8000/api/patients/${id}`)
-                    .then(response => {
-                        let i = this.patients.map(data => data.id).indexOf(id);
-                        this.patients.splice(i, 1)
-                    });
-            }
-        }
        
     }
 </script>

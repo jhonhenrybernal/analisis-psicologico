@@ -78,13 +78,20 @@ class PatientController extends Controller
     }
     public function show($id)
     {
-        $Patient = Patient::find($id);
+        $Patient = Patient::where('id',$id)->with('status')->first();
         return response()->json($Patient);
     }
     public function update($id, Request $request)
     {
+        $status = Status::where('description',$request->input('statusUpdate'))->value('id');
         $Patient = Patient::find($id);
-        $Patient->update($request->all());
+        $Patient->update([
+            'firstName' => $request->input('firstName'),
+            'lastName' => $request->input('lastName'),
+            'phoneWhatssap' => $request->input('phoneWhatssap'),
+            'email' => $request->input('email'),
+            'status_id' => $status,
+        ]);
         return response()->json(['status'=>'ok', 'message' => 'Paciente actualizado!', 'data'=> $Patient], 200);
     }
 }

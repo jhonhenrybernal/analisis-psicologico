@@ -16,16 +16,18 @@ class patientProcess implements ShouldBroadcast
     public string $messagge;
     public bool $status;
     public string $nombrePaciente;
+    public string $statusAssement;  
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($messagge,$status,$nombrePaciente)
+    public function __construct($messagge,$status,$nombrePaciente,$statusAssement)
     {
         $this->messagge = $messagge;
         $this->status = $status;
         $this->nombrePaciente = $nombrePaciente;
+        $this->statusAssement = $statusAssement;
     }
 
     /**
