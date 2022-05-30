@@ -40,7 +40,7 @@
         created() {
             this.$store.dispatch("getStatus").then(
                 respo=> {
-                    this.status = respo.data.data
+                    this.status = respo.data
                 }).catch(err => this.error(err));
         },
     }

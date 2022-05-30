@@ -1,22 +1,5 @@
 <template>
   <div>
-    
-     <nav class="navbar navbar-light" style="background-color: #d2d7db;" v-if="!isLoggedIn">
-      <div class="container-fluid justify-content-center">
-        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-          <li class="nav-item">
-            <router-link
-              to="/"
-              class="nav-link"
-              :class="{ active: $route.name === 'home' }"
-            >
-              &nbsp;Home</router-link
-            >
-          </li>
-        </ul>
-      </div>
-    </nav>
-    <!------------fin de header para todos---------------->
 
     <header class="navbar navbar-dark sticky-top bg-primary flex-md-nowrap p-0 shadow" v-if="isLoggedIn">
       <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Espiritual</a>
@@ -27,6 +10,22 @@
 
     <div class="container-fluid">
       <div class="row">
+        <nav class="navbar navbar-light" style="background-color: #d2d7db;" v-if="!isLoggedIn">
+          <div class="container-fluid justify-content-center">
+            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+              <li class="nav-item">
+                <router-link
+                  to="/"
+                  class="nav-link"
+                  :class="{ active: $route.name === 'home' }"
+                >
+                  &nbsp;Home</router-link
+                >
+              </li>
+            </ul>
+          </div>
+        </nav>
+    <!------------fin de header para todos---------------->
           <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse" v-if="isLoggedIn">
             <div class="position-sticky pt-3" >
               <ul class="nav flex-column">
@@ -71,18 +70,11 @@
               </ul>          
             </div>
           </nav>
-          <div v-if="isLoggedIn">
-              <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <div class="mt-5 pt-3">
-                  <router-view></router-view>
-                </div>
-              </main>
-          </div>
-          <div v-if="!isLoggedIn">            
-              <div class="mt-5 pt-3">
-                <router-view></router-view>
-              </div>
-          </div>
+          <main  :class="{'col-md-9 ms-sm-auto col-lg-10 px-md-4':isLoggedIn}">
+            <div class="mt-5 pt-3">
+              <router-view></router-view>
+            </div>
+          </main>
       </div>
     </div>
 </div>

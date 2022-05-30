@@ -6043,7 +6043,7 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     this.$store.dispatch("getStatus").then(function (respo) {
-      _this.status = respo.data.data;
+      _this.status = respo.data;
     })["catch"](function (err) {
       return _this.error(err);
     });
@@ -6483,14 +6483,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -44349,49 +44341,6 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    !_vm.isLoggedIn
-      ? _c(
-          "nav",
-          {
-            staticClass: "navbar navbar-light",
-            staticStyle: { "background-color": "#d2d7db" },
-          },
-          [
-            _c(
-              "div",
-              { staticClass: "container-fluid justify-content-center" },
-              [
-                _c(
-                  "ul",
-                  {
-                    staticClass:
-                      "nav col-12 col-md-auto mb-2 justify-content-center mb-md-0",
-                  },
-                  [
-                    _c(
-                      "li",
-                      { staticClass: "nav-item" },
-                      [
-                        _c(
-                          "router-link",
-                          {
-                            staticClass: "nav-link",
-                            class: { active: _vm.$route.name === "home" },
-                            attrs: { to: "/" },
-                          },
-                          [_vm._v("\n               Home")]
-                        ),
-                      ],
-                      1
-                    ),
-                  ]
-                ),
-              ]
-            ),
-          ]
-        )
-      : _vm._e(),
-    _vm._v(" "),
     _vm.isLoggedIn
       ? _c(
           "header",
@@ -44416,6 +44365,49 @@ var render = function () {
     _vm._v(" "),
     _c("div", { staticClass: "container-fluid" }, [
       _c("div", { staticClass: "row" }, [
+        !_vm.isLoggedIn
+          ? _c(
+              "nav",
+              {
+                staticClass: "navbar navbar-light",
+                staticStyle: { "background-color": "#d2d7db" },
+              },
+              [
+                _c(
+                  "div",
+                  { staticClass: "container-fluid justify-content-center" },
+                  [
+                    _c(
+                      "ul",
+                      {
+                        staticClass:
+                          "nav col-12 col-md-auto mb-2 justify-content-center mb-md-0",
+                      },
+                      [
+                        _c(
+                          "li",
+                          { staticClass: "nav-item" },
+                          [
+                            _c(
+                              "router-link",
+                              {
+                                staticClass: "nav-link",
+                                class: { active: _vm.$route.name === "home" },
+                                attrs: { to: "/" },
+                              },
+                              [_vm._v("\n                   Home")]
+                            ),
+                          ],
+                          1
+                        ),
+                      ]
+                    ),
+                  ]
+                ),
+              ]
+            )
+          : _vm._e(),
+        _vm._v(" "),
         _vm.isLoggedIn
           ? _c(
               "nav",
@@ -44585,28 +44577,13 @@ var render = function () {
             )
           : _vm._e(),
         _vm._v(" "),
-        _vm.isLoggedIn
-          ? _c("div", [
-              _c(
-                "main",
-                { staticClass: "col-md-9 ms-sm-auto col-lg-10 px-md-4" },
-                [
-                  _c(
-                    "div",
-                    { staticClass: "mt-5 pt-3" },
-                    [_c("router-view")],
-                    1
-                  ),
-                ]
-              ),
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        !_vm.isLoggedIn
-          ? _c("div", [
-              _c("div", { staticClass: "mt-5 pt-3" }, [_c("router-view")], 1),
-            ])
-          : _vm._e(),
+        _c(
+          "main",
+          {
+            class: { "col-md-9 ms-sm-auto col-lg-10 px-md-4": _vm.isLoggedIn },
+          },
+          [_c("div", { staticClass: "mt-5 pt-3" }, [_c("router-view")], 1)]
+        ),
       ]),
     ]),
   ])
