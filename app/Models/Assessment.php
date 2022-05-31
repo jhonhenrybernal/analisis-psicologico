@@ -17,4 +17,8 @@ class Assessment extends Model
     public function patient(){
         return $this->belongsTo('App\Models\Patient','patients_id');
     }
+
+    public function status(){
+        return $this->belongsTo('App\Models\Status');
+    }
 }

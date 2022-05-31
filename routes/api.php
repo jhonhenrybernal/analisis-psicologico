@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\StatusController;
+use App\Http\Controllers\AssessmentsController;
+use App\http\Controllers\imagesAssessmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +31,8 @@ Route::post('/access/assessments', [App\Http\Controllers\AssessmentsController::
 Route::group(['middleware'=>'jwt.verify'],function(){
    // Route::get('user','AuthController@getUser');
     Route::resource('patients',PatientController::class);
+    Route::resource('assessments',AssessmentsController::class);
     Route::resource('status',StatusController::class);
+    Route::resource('imagesAssessment',imagesAssessmentController::class);
     //Route::resource('todos','TodoController');
 });

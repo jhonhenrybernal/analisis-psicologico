@@ -18,7 +18,7 @@ window.Swal = Swal
  * @description Base url para iniciar oyente url global
  */
 axios.defaults.withCredentials = true
-axios.defaults.baseURL= 'http://localhost:8000/api/'
+axios.defaults.baseURL= 'http://192.168.10.17:8000/api/'
 const token = localStorage.getItem('token')
 if(token){
   axios.defaults.headers.common['Authorization'] = token

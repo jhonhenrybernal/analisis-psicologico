@@ -48,6 +48,16 @@ export default new Vuex.Store({
     set_status(values,status){
       values.data = status
     },
+
+    set_patient(values,status){
+      values.data = status
+    },
+    set_assessments(values,status){
+      values.data = status
+    },
+    set_images(values,status){
+      values.data = status
+    }
   },
   actions: {
     login({commit}, user){
@@ -122,11 +132,40 @@ export default new Vuex.Store({
         })
       }); 
     },
+    getProcessPatient({commit},data){
+      return new Promise((resolve, reject) => {
+        axios({url: 'access/assessments', data: data, method: 'POST' })
+        .then(resp => {
+          commit('set_patient', resp.data)
+          resolve(resp)
+        })
+        .catch(err => {
+          reject(err)
+        })
+      })
+    },
+    getAssessments({commit},data){
+      return new Promise((resolve, reject) => {
+        axios({url:'assessments',method:'GET'}).then(res =>{
+          commit('set_assessments',res.data)
+          resolve(res)
+        })
+      }); 
+    },
+    getImages({commit}){
+      return new Promise((resolve, reject) => {
+        axios({url:'imagesAssessment',method:'GET'}).then(res =>{
+          commit('set_images',res.data)
+          resolve(res)
+        })
+      }); 
+    }
   },
   getters : {
-    getPatients: values => values.data,
+    getImages: values => values.data,
+    getAssessments: values => values.data,
     getStatus: values => values.data,
-
+    getProcessPatient: values => values.data,
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
     getUser: state=> state.user,

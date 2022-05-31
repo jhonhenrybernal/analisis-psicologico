@@ -22,7 +22,10 @@ import PatientsCreate from './components/page/patient/create.vue'
 import statusTable from './components/page/status/table.vue'
 import statusEdit from './components/page/status/edit.vue'
 import statusCreate from './components/page/status/create.vue'
-import pageAssement from './components/page/assessment/page.vue'
+import tracingAssement from './components/page/assessment/tracing.vue'
+import tableAssessment from './components/page/assessment/table.vue'
+import imagesAssessmentTable from './components/page/imageAssessment/table.vue'
+import imagesAssessmentUpload from './components/page/imageAssessment/upload.vue'
 
 /**
  * @author Jhon Bernal
@@ -49,7 +52,7 @@ const router = new Router({
 			path:'/dashboard',name:'dashboard',component:Dashboard
 		},
     {
-			path:'/patient',name:'patientTable',component:PatientsTable, beforeEnter: guard
+			path:'/patient/table',name:'patientTable',component:PatientsTable, beforeEnter: guard
 		}, 
     {
 			path:'/patient/edit',name:'patientEdit',component:PatientsEdit, beforeEnter: guard
@@ -58,7 +61,7 @@ const router = new Router({
 			path:'/patient/crear',name:'patientCreate',component:PatientsCreate, beforeEnter: guard
 		},
     {
-			path:'/status',name:'statusTable',component:statusTable, beforeEnter: guard
+			path:'/status/table',name:'statusTable',component:statusTable, beforeEnter: guard
 		}, 
     {
 			path:'/status/edit',name:'statusEdit',component:statusEdit, beforeEnter: guard
@@ -67,7 +70,16 @@ const router = new Router({
 			path:'/status/crear',name:'statusCreate',component:statusCreate, beforeEnter: guard
 		},
     {
-			path:'/assessment',name:'assessment',component:pageAssement, beforeEnter: guard
+			path:'/assessment/table',name:'tableAssessment',component:tableAssessment, beforeEnter: guard
+		},
+    {
+			path:'/assessment/tracing',name:'tracingAssessment',component:tracingAssement, beforeEnter: guard
+		},
+    {
+			path:'/image-assessment/table',name:'tableAssessmentImage',component:imagesAssessmentTable, beforeEnter: guard
+		},
+    {
+			path:'/image-assessment/upload',name:'imageAssessmentImage',component:imagesAssessmentUpload, beforeEnter: guard
 		}, 
     {
 			path:'/',name:'home',component:StepOne
@@ -76,13 +88,13 @@ const router = new Router({
 			path:'/stepTwo',name:'stepTwo',component:StepTwo
 		},
     {
-			path:'/stepTree',name:'stepTwo',component:StepTree
+			path:'/stepTree',name:'stepTree',component:StepTree
 		},
     {
-			path:'/stepFourt',name:'stepTwo',component:StepFourt
+			path:'/stepFourt',name:'stepFour',component:StepFourt
 		},
     {
-			path:'/stepFive',name:'stepTwo',component:StepFive
+			path:'/stepFive',name:'stepFive',component:StepFive
 		},
     {
 			path:'**',name:'nofound',component:NotFound

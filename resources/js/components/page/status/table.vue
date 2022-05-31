@@ -1,9 +1,13 @@
 <template>
 
-    <div>
+    <div>     
+        <div class="container">
+  <div class="row">
+    <div class="col-12">
          <router-link :to="{name: 'statusCreate' }" class="btn btn-success">Crear</router-link>
         <h2 class="text-center">Lista {{nameTable}}</h2>
-       
+
+      <div class="table-responsive">
         <table class="table">
             <thead>
             <tr>
@@ -27,6 +31,10 @@
             </tbody>
         </table>
     </div>
+     </div>
+      </div>
+       </div>
+        </div>
 </template>
  
 <script>
