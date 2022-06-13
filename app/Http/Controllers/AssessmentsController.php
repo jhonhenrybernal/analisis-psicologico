@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Assessment;
 use App\Models\Status;
 use App\Models\Patient;
+use App\Models\imagesAssessment;
 
 class AssessmentsController extends Controller
 {
@@ -39,7 +40,10 @@ class AssessmentsController extends Controller
             return response()->json(['status'=>true, 'message' => '', 'data'=> $assessment], 200);
             
         }
+    }
 
-
+    public function imagePatients(){
+        $imagesAssessment = imagesAssessment::all();
+        return response()->json(['status'=>true, 'message' => '', 'data'=> $imagesAssessment], 200);
     }
 }

@@ -134,7 +134,7 @@ export default new Vuex.Store({
     },
     getProcessPatient({commit},data){
       return new Promise((resolve, reject) => {
-        axios({url: 'access/assessments', data: data, method: 'POST' })
+        axios({url: 'assessments/access/patients', data: data, method: 'POST' })
         .then(resp => {
           commit('set_patient', resp.data)
           resolve(resp)

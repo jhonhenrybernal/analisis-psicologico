@@ -15,30 +15,29 @@ class imagesAssessmentController extends Controller
     }
 
     public function store(Request $request){
-        $request->validate([
-            'file' => 'required|mimes:jpg,jpeg,png|max:2048'
-         ]);
- 
+       
         
          $Authuser = Auth::user();
- 
-        if($request->file()) {
-             $file_name = time().'_'.$request->file->getClientOriginalName();
-             $file_path = $request->file('file')->storeAs('uploads', $file_name, 'public');
+       
+        if($request->file('files')) {
+             //$file_name = time().'_'.$request->file->getClientOriginalName();
+             //$file_path = $request->file('file')->storeAs('uploads', $file_name, 'public');
             
-             foreach ($request->file() as $imagefile) {
+             foreach ($request->file('files') as $imagefile) {
+         
                 $fileUpload = new imagesAssessment;
-                $fileUpload->name = $request->file->getClientOriginalName();
+                $fileUpload->name = $imagefile->getClientOriginalName();
                 $path = $imagefile->store('/images/espiritual', ['disk' =>   'espiritual_files']);
                 $fileUpload->path =  $path;
                 $fileUpload->type_image = 'patient';
                 $fileUpload->user_id =  $Authuser->id;
                 $fileUpload->save();
               }
+              
+            return response()->json(['success'=>'Imagenes cargados exitosamente'],200);
         }
-             
+        return response()->json(['error'=>'Imagenes no cargados exitosamente'],400);
  
-        return response()->json(['success'=>'File uploaded successfully.']);
          
     } 
 }

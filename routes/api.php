@@ -26,7 +26,8 @@ use App\http\Controllers\imagesAssessmentController;
 //Route::post('/register', [App\Http\Controllers\Api\AuthController::class, 'register']); 
 Route::post('/login', [App\Http\Controllers\Api\AuthController::class, 'login']);
 
-Route::post('/access/assessments', [App\Http\Controllers\AssessmentsController::class, 'access'])->name('access-assessments'); 
+Route::post('/assessments/access/patients', [App\Http\Controllers\AssessmentsController::class, 'access'])->name('assessments-access');
+Route::get('/assessments/images/patients', [App\Http\Controllers\AssessmentsController::class, 'imagePatients'])->name('assessments-images-patients');  
 
 Route::group(['middleware'=>'jwt.verify'],function(){
    // Route::get('user','AuthController@getUser');

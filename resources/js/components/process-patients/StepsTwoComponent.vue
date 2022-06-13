@@ -6,33 +6,72 @@
                 <h2 class="text-center">Bienvenido!</h2>
                 <p class="text-center">{{firstname }} {{lastname}} seleccione tus imagenes</p>
             </div>
-            <div class="row photos"> 
-                <div class="col-sm-6 col-md-4 col-lg-3 item"><div class="button-container"><img class="img-fluid" src="https://i.imgur.com/zmzERpe.jpg"> <button   v-on:click="clickSelect('selectone')"  :class="{activeSelect: isActiveSelect}">Seleccione</button></div></div>
-                <div class="col-sm-6 col-md-4 col-lg-3 item"><div class="button-container"><img class="img-fluid" src="https://i.imgur.com/gX11Vt5.jpg"> <button   v-on:click="clickSelect('selecttwo')"  :class="{activeSelect: isActiveSelect}">Seleccione</button></div></div>
-                <div class="col-sm-6 col-md-4 col-lg-3 item"><div class="button-container"><img class="img-fluid" src="https://i.imgur.com/pZcUS2Y.jpg"> <button   v-on:click="clickSelect()"  :class="{activeSelect: isActiveSelect}">Seleccione</button></div></div>
-                <div class="col-sm-6 col-md-4 col-lg-3 item"><div class="button-container"><img class="img-fluid" src="https://i.imgur.com/06Ajq7f.jpg"> <button   v-on:click="clickSelect()"  :class="{activeSelect: isActiveSelect}">Seleccione</button></div></div>
-                <div class="col-sm-6 col-md-4 col-lg-3 item"><div class="button-container"><img class="img-fluid" src="https://i.imgur.com/zmzERpe.jpg"> <button   v-on:click="clickSelect()"  :class="{activeSelect: isActiveSelect}">Seleccione</button></div></div>
-                <div class="col-sm-6 col-md-4 col-lg-3 item"><div class="button-container"><img class="img-fluid" src="https://i.imgur.com/gX11Vt5.jpg"> <button   v-on:click="clickSelect()"  :class="{activeSelect: isActiveSelect}">Seleccione</button></div></div>
-                <div class="col-sm-6 col-md-4 col-lg-3 item"><div class="button-container"><img class="img-fluid" src="https://i.imgur.com/pZcUS2Y.jpg"> <button   v-on:click="clickSelect()"  :class="{activeSelect: isActiveSelect}">Seleccione</button></div></div>
-                <div class="col-sm-6 col-md-4 col-lg-3 item"><div class="button-container"><img class="img-fluid" src="https://i.imgur.com/06Ajq7f.jpg"> <button   v-on:click="clickSelect()"  :class="{activeSelect: isActiveSelect}">Seleccione</button></div></div>
-                <div class="col-sm-6 col-md-4 col-lg-3 item"><div class="button-container"><img class="img-fluid" src="https://i.imgur.com/zmzERpe.jpg"> <button   v-on:click="clickSelect()"  :class="{activeSelect: isActiveSelect}">Seleccione</button></div></div>
-                <div class="col-sm-6 col-md-4 col-lg-3 item"><div class="button-container"><img class="img-fluid" src="https://i.imgur.com/gX11Vt5.jpg"> <button   v-on:click="clickSelect()"  :class="{activeSelect: isActiveSelect}">Seleccione</button></div></div>
-                <div class="col-sm-6 col-md-4 col-lg-3 item"><div class="button-container"><img class="img-fluid" src="https://i.imgur.com/pZcUS2Y.jpg"> <button   v-on:click="clickSelect()"  :class="{activeSelect: isActiveSelect}">Seleccione</button></div></div>
-                <div class="col-sm-6 col-md-4 col-lg-3 item"><div class="button-container"><img class="img-fluid" src="https://i.imgur.com/06Ajq7f.jpg"> <button   v-on:click="clickSelect()"  :class="{activeSelect: isActiveSelect}">Seleccione</button></div></div>
-                <div class="col-sm-6 col-md-4 col-lg-3 item"><div class="button-container"><img class="img-fluid" src="https://i.imgur.com/zmzERpe.jpg"> <button   v-on:click="clickSelect()"  :class="{activeSelect: isActiveSelect}">Seleccione</button></div></div>
-                <div class="col-sm-6 col-md-4 col-lg-3 item"><div class="button-container"><img class="img-fluid" src="https://i.imgur.com/gX11Vt5.jpg"> <button   v-on:click="clickSelect()"  :class="{activeSelect: isActiveSelect}">Seleccione</button></div></div>
-                <div class="col-sm-6 col-md-4 col-lg-3 item"><div class="button-container"><img class="img-fluid" src="https://i.imgur.com/pZcUS2Y.jpg"> <button   v-on:click="clickSelect()"  :class="{activeSelect: isActiveSelect}">Seleccione</button></div></div>
-                <div class="col-sm-6 col-md-4 col-lg-3 item"><div class="button-container"><img class="img-fluid" src="https://i.imgur.com/06Ajq7f.jpg"> <button   v-on:click="clickSelect()"  :class="{activeSelect: isActiveSelect}">Seleccione</button></div></div>
-                <div class="col-sm-6 col-md-4 col-lg-3 item"><div class="button-container"><img class="img-fluid" src="https://i.imgur.com/zmzERpe.jpg"> <button   v-on:click="clickSelect()"  :class="{activeSelect: isActiveSelect}">Seleccione</button></div></div>
-                <div class="col-sm-6 col-md-4 col-lg-3 item"><div class="button-container"><img class="img-fluid" src="https://i.imgur.com/gX11Vt5.jpg"> <button   v-on:click="clickSelect()"  :class="{activeSelect: isActiveSelect}">Seleccione</button></div></div>
-                <div class="col-sm-6 col-md-4 col-lg-3 item"><div class="button-container"><img class="img-fluid" src="https://i.imgur.com/pZcUS2Y.jpg"> <button   v-on:click="clickSelect()"  :class="{activeSelect: isActiveSelect}">Seleccione</button></div></div>
-                <div class="col-sm-6 col-md-4 col-lg-3 item"><div class="button-container"><img class="img-fluid" src="https://i.imgur.com/06Ajq7f.jpg"> <button   v-on:click="clickSelect()"  :class="{activeSelect: isActiveSelect}">Seleccione</button></div></div>
+            <div class="container">
+                <div class="row-images"> 
+                <div class="column-images" v-for="img in images" :key="img.id" >
+                  <div class="button-container">
+                    <img   v-bind:src="'../'+img.path"><button  type="button" class="btn" v-on:click="clickSelect(img.path)" @click="open = true">Seleccione</button>
+                  </div>
+                  
+                </div>  
+              </div>
             </div>
-            <div class="row mb-3">
+             <div class="row mb-3">
               <button type="submit" class="btn btn-primary" v-on:click="continueProcess()">Continuar</button>                           
             </div>
         </div>
     </div>
+    <div v-if="open" class="modal-images">
+        <span class="close-image" @click="open = false">&times;</span>
+        <img class="modal-content" v-bind:src="'../'+imgPath">
+        <div id="caption">
+          <div class="form-control">
+            <span>Seleccione</span>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Esta seria para la pregunta uno
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+              <label class="form-check-label" for="defaultCheck2">
+                Esta seria para la pregunta dos
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+              <label class="form-check-label" for="defaultCheck2">
+                Esta seria para la pregunta tres
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+              <label class="form-check-label" for="defaultCheck2">
+                Esta seria para la pregunta cuatro
+              </label>
+            </div>
+          </div>
+        </div>
+       <!--   <div class="cuestions-modal">
+          <div class="form-control">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Default checkbox
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" disabled>
+              <label class="form-check-label" for="defaultCheck2">
+                Disabled checkbox
+              </label>
+            </div>
+          </div>
+            
+        </div> -->
+    </div>
+  
   </div>
 </template>
 <script>
@@ -48,19 +87,21 @@ export default {
       listFinal:[],
       show: true,
       value: "",
+      images: [],
+      open: false,
+      imgPath:''
     };
   },
+  created() {
+    axios.get('assessments/images/patients', {}).then(response => {
+        this.images = response.data.data
+    }).catch(e => {
+        console.log(e);
+    });
+  },
   methods: {
-    clickSelect:function (Selected) {
-     if (event.target.classList.contains('activeSelect')) {
-        event.target.classList.remove("activeSelect");
-        this.builderSelection('false',Selected)
-        return
-      }
-      event.target.className += "activeSelect";
-      this.builderSelection('true',Selected)
-
-    
+    clickSelect:function (img) {
+      this.imgPath = img
     },
     builderSelection(status,selected){
       
@@ -77,7 +118,13 @@ export default {
       console.log(this.listFinal)
       this.$router.push('stepTree') 
     }
-    
-  },
+  }
 };
 </script>
+<style>
+img {
+ height: 100%;
+ width: 100%;
+ object-fit: contain;
+}
+</style>

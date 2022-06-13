@@ -3,14 +3,14 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Laravel Vue JS File Upload Demo</div>
+                    <div class="card-header">Carga de imagenes</div>
                     <div class="card-body">
                         <div v-if="success != ''" class="alert alert-success">
                             {{success}}
                         </div>
                         <form @submit="formSubmit" enctype="multipart/form-data">
-                            <input type="file" class="form-control" v-on:change="onChange"  multiple>
-                            <button class="btn btn-primary btn-block">Upload</button>
+                            <input type="file" class="form-control"  ref="file"  multiple="multiple">
+                            <button class="btn btn-primary btn-block">Cargar</button>
                         </form>
                     </div>
                 </div>
@@ -28,9 +28,6 @@
             };
         },
         methods: {
-            onChange(e) {
-                this.file = e.target.files[0];
-            },
             formSubmit(e) {
                 e.preventDefault();
                 let existingObj = this;
@@ -39,9 +36,13 @@
                         'content-type': 'multipart/form-data'
                     }
                 }
-                let data = new FormData();
-                data.append('file', this.file);
-                axios.post('/imagesAssessment', data, config)
+                let formData  = new FormData();
+                for( var i = 0; i < this.$refs.file.files.length; i++ ){
+                    let file = this.$refs.file.files[i];
+                    formData.append('files[' + i + ']', file);
+                }
+    
+                axios.post('/imagesAssessment', formData, config)
                     .then(function (res) {
                         existingObj.success = res.data.success;
                     })
