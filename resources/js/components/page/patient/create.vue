@@ -37,7 +37,7 @@
         methods: {
             addPatient() {
                 this.axios
-                    .post('http://localhost:8000/api/patients', this.patient)
+                    .post('patients', this.patient)
                     .then(response => (
                         this.$router.push({ name: 'patientTable' })
                     ))

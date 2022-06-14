@@ -78,7 +78,6 @@ export default {
       }
     },
     noAccess(value) {
-      console.log(JSON.parse(value))
       Swal.fire({
         title: 'Error!',
         text: 'No tienes acceso',

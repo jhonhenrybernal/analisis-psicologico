@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\imagesAssessment;
+use App\Models\ImagesAssessment;
 use Illuminate\Support\Facades\Auth;
 
-class imagesAssessmentController extends Controller
+class ImagesAssessmentController extends Controller
 {
     public function index()
     {
-        $imagesAssessment = imagesAssessment::with('user')->get();
+        $imagesAssessment = ImagesAssessment::with('user')->get();
        return response()->json(['status'=>'ok', 'message' => '', 'data'=> $imagesAssessment], 200); 
     }
 
@@ -25,7 +25,7 @@ class imagesAssessmentController extends Controller
             
              foreach ($request->file('files') as $imagefile) {
          
-                $fileUpload = new imagesAssessment;
+                $fileUpload = new ImagesAssessment;
                 $fileUpload->name = $imagefile->getClientOriginalName();
                 $path = $imagefile->store('/images/espiritual', ['disk' =>   'espiritual_files']);
                 $fileUpload->path =  $path;

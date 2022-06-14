@@ -8,11 +8,13 @@ import router  from './router'
 import store from './store';
 import App from './layout/App'
 import Swal from 'sweetalert2'
+import moment from 'moment'
 window.Swal = Swal
 
+import 'moment/locale/es';
 
-
-
+Vue.prototype.moment = moment
+Vue.use(require('vue-moment'));
 /**
  * @author Jhon Bernal
  * @description Base url para iniciar oyente url global

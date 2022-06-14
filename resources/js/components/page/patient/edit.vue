@@ -22,8 +22,8 @@
                     </div>
                      <div class="form-group">
                         <div class="form-check">
-                            <input type="checkbox" id="checkbox" v-model="patient.status.description" :true-value="'Activo'"  :false-value="'Inactivo'">
-                            <label for="checkbox">{{ patient.status.description }}</label>
+                            <input type="checkbox" id="checkbox" v-model="patient.status_id" :true-value="'1'"  :false-value="'2'">
+                            <label for="checkbox">{{ patient.status_id ==1?'Activo':'Inactivo' }}</label>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Update</button>
@@ -38,22 +38,22 @@
         data() {
             return {
                 patient: {},
-                checked: Boolean
+                checked: Boolean,
+                descripcion: ''
             }
         },
         created() {
-            console.log('aca')
             this.axios
-                .get(`http://localhost:8000/api/patients/${this.$route.params.id}`)
+                .get(`patients/${this.$route.params.id}`)
                 .then((res) => {
                     this.patient = res.data;
+                    this.descripcion = res.data.status.description
                 });
         },
         methods: {
             updatePatient() {
-                this.patient.statusUpdate = this.patient.status.description
                 this.axios
-                    .patch(`http://localhost:8000/api/patients/${this.$route.params.id}`, this.patient)
+                    .put(`patients/${this.$route.params.id}`, this.patient)
                     .then((res) => {
                         this.$router.push({ name: 'patientTable' });
                     });

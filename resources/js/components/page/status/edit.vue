@@ -5,12 +5,12 @@
             <div class="col-md-6">
                 <form @submit.prevent="updateStatus">
                       <div class="form-group">
-                        <label>Nombre</label>
-                        <input type="text" class="form-control" v-model="patient.name">
+                        <label>Nombre <b>ejemplo(prueba_uno)</b> </label>
+                        <input type="text" class="form-control" v-model="status.name">
                     </div>
                       <div class="form-group">
-                        <label>Descripcion</label>
-                        <input type="text" class="form-control" v-model="patient.description">
+                         <label>Descripcion <b>ejemplo(Prueba uno)</b> </label>
+                        <input type="text" class="form-control" v-model="status.description">
                     </div>
                     <button type="submit" class="btn btn-primary">Update</button>
                 </form>
@@ -27,17 +27,16 @@
             }
         },
         created() {
-            console.log('aca')
             this.axios
-                .get(`http://localhost:8000/api/status/${this.$route.params.id}`)
+                .get(`status/${this.$route.params.id}`)
                 .then((res) => {
-                    this.status = res.data;
+                    this.status = res.data.data;
                 });
         },
         methods: {
             updateStatus() {
                 this.axios
-                    .patch(`http://localhost:8000/api/status/${this.$route.params.id}`, this.status)
+                    .put(`status/${this.$route.params.id}`, this.status)
                     .then((res) => {
                         this.$router.push({ name: 'statusTable' });
                     });

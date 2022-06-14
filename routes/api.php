@@ -5,7 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\AssessmentsController;
-use App\http\Controllers\imagesAssessmentController;
+use App\http\Controllers\ImagesAssessmentController;
+use App\http\Controllers\QuestionsController;
+use App\http\Controllers\ProcessAssessmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +36,8 @@ Route::group(['middleware'=>'jwt.verify'],function(){
     Route::resource('patients',PatientController::class);
     Route::resource('assessments',AssessmentsController::class);
     Route::resource('status',StatusController::class);
-    Route::resource('imagesAssessment',imagesAssessmentController::class);
+    Route::resource('imagesAssessment',ImagesAssessmentController::class);
+    Route::resource('questions',QuestionsController::class);
+    Route::get('/assessments/process/{id}', [App\Http\Controllers\ProcessAssessmentController::class, 'findAll']);  
     //Route::resource('todos','TodoController');
 });

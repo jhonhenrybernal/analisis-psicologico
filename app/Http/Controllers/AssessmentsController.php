@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Assessment;
 use App\Models\Status;
 use App\Models\Patient;
-use App\Models\imagesAssessment;
+use App\Models\ImagesAssessment;
+use App\Models\ProcessAssessment;
+use App\Models\QuestionAssessments;
+use App\Models\ImagesQuestionAssessments;
 
 class AssessmentsController extends Controller
 {
@@ -19,6 +22,7 @@ class AssessmentsController extends Controller
     public function access(Request $request){
         $invitacion = Status::where('name','invitacion_enviada')->value('id');
         $invitacionIniciada = Status::where('name','valoracion_iniciada')->value('id');
+        $seleccionImagenes = Status::where('name','seleccion_imagenes')->value('id');
         $inactivo = Status::where('name','inactivo')->value('id');
 
         $assessment = Assessment::where('code_invitation',$request->code)->with(["patient" => function($q) use ($request){
@@ -35,15 +39,29 @@ class AssessmentsController extends Controller
         if ($assessment) {   
             $assessment->status_id = $invitacionIniciada;
             $assessment->save();
-
-            event(new \App\Events\patientProcess("Iniciado tratamiento",true,$assessment->patient->firstName." ".$assessment->patient->lastName,'valoracion_iniciada'));
+            $processAssessment = ProcessAssessment::where('status_id',$seleccionImagenes)->where('assessment_id',$assessment->id)->first();
+            if (!$processAssessment) {
+                ProcessAssessment::create([
+                    'status_id'  => $seleccionImagenes,
+                    'observations' => '',
+                    'check' => 0,
+                    'assessment_id' => $assessment->id
+                ]);
+            }
+            
+            $paramsEvent = [
+                'nombrePaciente' => $assessment->patient->firstName." ".$assessment->patient->lastName,
+                'idPaciente' => $assessment->patient->id,
+                'idValoracion' => $assessment->id,
+            ];
+            event(new \App\Events\patientProcess("Iniciado tratamiento",true,$paramsEvent,'valoracion_iniciada'));
             return response()->json(['status'=>true, 'message' => '', 'data'=> $assessment], 200);
             
         }
     }
 
     public function imagePatients(){
-        $imagesAssessment = imagesAssessment::all();
+        $imagesAssessment = ImagesAssessment::all();
         return response()->json(['status'=>true, 'message' => '', 'data'=> $imagesAssessment], 200);
     }
 }

@@ -86,6 +86,16 @@
                     <polyline points="2 12 12 17 22 12"></polyline>
                   </svg>Estados</router-link>
               </li>
+              <li class="nav-item">
+                <router-link to="/question/table" class="nav-link" :class="{ active: $route.name === 'questionTable' }">
+                  &nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="feather feather-layers align-text-bottom" aria-hidden="true">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                    <polyline points="2 17 12 22 22 17"></polyline>
+                    <polyline points="2 12 12 17 22 12"></polyline>
+                  </svg>Preguntas</router-link>
+              </li>
               <br>
               <li class="nav-item">&nbsp;
                 <button class="btn btn-primary" @click="logout()"><svg xmlns="http://www.w3.org/2000/svg" width="16"
@@ -99,7 +109,9 @@
         </nav>
         <main :class="{ 'col-md-9 ms-sm-auto col-lg-10 px-md-4': isLoggedIn }">
           <div class="mt-5 pt-3">
-            <router-view></router-view>
+            <transition name="view">
+                <router-view/>
+            </transition>
           </div>
         </main>
       </div>

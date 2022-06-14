@@ -72,14 +72,14 @@ export default {
             if (e.status) {
                 Swal.fire({
                     title: 'Hola!',
-                    text: 'Tienes una nueva valoracion del paciente ' + e.nombrePaciente,
+                    text: 'Tienes una nueva valoracion del paciente ' + e.params.nombrePaciente,
                     icon: 'info',
                     confirmButtonColor: '#3085d6',
-                    confirmButtonText: '<i class="fa fa-thumbs-down"></i> Iniciar Valoración!'
+                    confirmButtonText: '<i class="fa fa-thumbs-up"></i> Iniciar Valoración!'
                 }).then((result) => {
                     /* Read more about isConfirmed, isDenied below */
                     if (result.isConfirmed) {
-                        this.$router.push("/assessment");
+                        this.$router.push({ name: 'tracingAssessment', params: { id: e.params.idValoracion } })
                     } else if (result.isDenied) {
 
                     }

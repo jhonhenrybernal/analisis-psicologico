@@ -26,6 +26,9 @@ import tracingAssement from './components/page/assessment/tracing.vue'
 import tableAssessment from './components/page/assessment/table.vue'
 import imagesAssessmentTable from './components/page/imageAssessment/table.vue'
 import imagesAssessmentUpload from './components/page/imageAssessment/upload.vue'
+import questionTable from './components/page/question/table.vue'
+import questionEdit from './components/page/question/edit.vue'
+import questionCreate from './components/page/question/create.vue'
 
 /**
  * @author Jhon Bernal
@@ -68,6 +71,15 @@ const router = new Router({
 		},
     {
 			path:'/status/crear',name:'statusCreate',component:statusCreate, beforeEnter: guard
+		},
+    {
+			path:'/question/table',name:'questionTable',component:questionTable, beforeEnter: guard
+		}, 
+    {
+			path:'/question/edit',name:'questionEdit',component:questionEdit, beforeEnter: guard
+		},
+    {
+			path:'/question/crear',name:'questionCreate',component:questionCreate, beforeEnter: guard
 		},
     {
 			path:'/assessment/table',name:'tableAssessment',component:tableAssessment, beforeEnter: guard

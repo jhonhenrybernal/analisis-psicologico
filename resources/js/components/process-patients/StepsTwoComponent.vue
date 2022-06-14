@@ -24,31 +24,13 @@
     <div v-if="open" class="modal-images">
         <span class="close-image" @click="open = false">&times;</span>
         <img class="modal-content" v-bind:src="'../'+imgPath">
-        <div id="caption">
+        <div id="caption" v-if="questionView">
           <div class="form-control">
             <span>Seleccione</span>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <input class="form-check-input" type="checkbox" v-model="question.id">
               <label class="form-check-label" for="defaultCheck1">
-                Esta seria para la pregunta uno
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
-              <label class="form-check-label" for="defaultCheck2">
-                Esta seria para la pregunta dos
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
-              <label class="form-check-label" for="defaultCheck2">
-                Esta seria para la pregunta tres
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
-              <label class="form-check-label" for="defaultCheck2">
-                Esta seria para la pregunta cuatro
+                {{question.name}}
               </label>
             </div>
           </div>
@@ -89,7 +71,8 @@ export default {
       value: "",
       images: [],
       open: false,
-      imgPath:''
+      imgPath:'',
+      question:[]
     };
   },
   created() {

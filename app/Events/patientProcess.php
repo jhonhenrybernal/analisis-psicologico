@@ -15,18 +15,18 @@ class patientProcess implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public string $messagge;
     public bool $status;
-    public string $nombrePaciente;
+    public array $params;
     public string $statusAssement;  
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($messagge,$status,$nombrePaciente,$statusAssement)
+    public function __construct($messagge,$status,$params,$statusAssement)
     {
         $this->messagge = $messagge;
         $this->status = $status;
-        $this->nombrePaciente = $nombrePaciente;
+        $this->params = $params;
         $this->statusAssement = $statusAssement;
     }
 

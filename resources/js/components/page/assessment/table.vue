@@ -61,7 +61,7 @@ export default {
 
             if (status == 'valoracion_iniciada') {
                 this.event = 'Ver valoración'
-                this.$router.push("/assessment/tracing");    
+                this.$router.push({ name: 'tracingAssessment', params: { id: id } })   
             }
         },
         nameEvent(status){
