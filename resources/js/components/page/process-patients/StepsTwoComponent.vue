@@ -10,7 +10,7 @@
                 <div class="row-images"> 
                 <div class="column-images" v-for="img in images" :key="img.id" >
                   <div class="button-container">
-                    <img   v-bind:src="'../'+img.path"><button  type="button" class="btn" v-on:click="clickSelect(img.path)" @click="open = true">Seleccione</button>
+                    <img   v-bind:src="'../'+img.path"><button  type="button" class="btn" v-on:click="clickSelect(img)" @click="open = true">Seleccione</button>
                   </div>
                   
                 </div>  
@@ -22,7 +22,7 @@
         </div>
     </div>
     <div v-if="open" class="modal-images">
-        <span class="close-image" @click="open = false">&times;</span>
+        <span class="close-image" @click="close(idImage)">&times;</span>
         <img class="modal-content" v-bind:src="'../'+imgPath">
         <div id="caption" v-if="questionView">
           <div class="form-control">
@@ -72,7 +72,9 @@ export default {
       images: [],
       open: false,
       imgPath:'',
-      question:[]
+      question:[],
+      questionView:false,
+      idImage:0
     };
   },
   created() {
@@ -84,7 +86,20 @@ export default {
   },
   methods: {
     clickSelect:function (img) {
-      this.imgPath = img
+      this.imgPath = img.path
+      this.idImage = img.id
+      this.getImage(img.id,'pre')
+
+      
+    },
+    close(id){
+      this.open = false
+      this.getImage(id,'close')
+    },
+    getImage(id,action){
+       this.axios.get(`/assessments/images/pre-select/${id}/${action}`)
+        .then((res) => {
+        });
     },
     builderSelection(status,selected){
       

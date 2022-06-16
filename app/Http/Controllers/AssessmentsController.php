@@ -50,11 +50,17 @@ class AssessmentsController extends Controller
             }
             
             $paramsEvent = [
+                'action' => 'acceso',
                 'nombrePaciente' => $assessment->patient->firstName." ".$assessment->patient->lastName,
                 'idPaciente' => $assessment->patient->id,
                 'idValoracion' => $assessment->id,
             ];
-            event(new \App\Events\patientProcess("Iniciado tratamiento",true,$paramsEvent,'valoracion_iniciada'));
+            $messagge = "Iniciado tratamiento";
+            $status = true;
+            $params = $paramsEvent;
+            $channel = 'patient';
+            $this->push($messagge,$status,$params,$channel);
+
             return response()->json(['status'=>true, 'message' => '', 'data'=> $assessment], 200);
             
         }
@@ -63,5 +69,25 @@ class AssessmentsController extends Controller
     public function imagePatients(){
         $imagesAssessment = ImagesAssessment::all();
         return response()->json(['status'=>true, 'message' => '', 'data'=> $imagesAssessment], 200);
+    }
+
+    public function imagePreSelect($id,$action){
+        $imagesAssessment = ImagesAssessment::find($id);
+        $paramsEvent = [
+            'action' => 'nueva_pre_imagen',
+            'evento' => $action,
+            'imagenCantidad' => 1,
+            'imagen' => $imagesAssessment->path
+        ];
+        $messagge = "Iniciado seleccion pre imagenes";
+        $status = true;
+        $params = $paramsEvent;
+        $channel = 'patient';
+        $this->push($messagge,$status,$params,$channel); 
+        return response()->json(['status'=>true, 'message' => '', 'data'=> $imagesAssessment], 200);
+    }
+
+    public function push($messagge,$status,$params,$channel){
+        event(new \App\Events\patientProcess($messagge,$status,$params,$channel));
     }
 }

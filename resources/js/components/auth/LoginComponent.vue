@@ -57,8 +57,8 @@ import { mapActions } from 'vuex'
 
         submit: function () {
            this.$store.dispatch('login', this.form)
-          .then(() => this.$router.push('/dashboard'))
-          .catch(err => this.error(err))
+          .then(() =>this.$router.push({ name: 'administrator', params: { view: 'patient-table' } })   
+          ).catch(err => this.error(err))
         },
         error(value){
             this.alert=true

@@ -46,10 +46,6 @@
 </template>
  
 <script>
-
-import Echo from 'laravel-echo'
-import Swal from 'sweetalert2'
-window.Pusher = require('pusher-js')
 export default {
     data() {
         return {
@@ -58,38 +54,6 @@ export default {
             nameTable: 'pacientes'
         }
     },
-    mounted() {
-        window.Echo = new Echo({
-            broadcaster: 'pusher',
-            key: 'ASDASD2121',
-            wsHost: window.location.hostname,
-            wsPort: 6001,
-            disableStats: true,
-            disableStats: true,
-            forceTLS: false,
-        })
-        window.Echo.channel('patient').listen('patientProcess', (e) => {
-            if (e.status) {
-                Swal.fire({
-                    title: 'Hola!',
-                    text: 'Tienes una nueva valoracion del paciente ' + e.params.nombrePaciente,
-                    icon: 'info',
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: '<i class="fa fa-thumbs-up"></i> Iniciar Valoración!'
-                }).then((result) => {
-                    /* Read more about isConfirmed, isDenied below */
-                    if (result.isConfirmed) {
-                        this.$router.push({ name: 'tracingAssessment', params: { id: e.params.idValoracion } })
-                    } else if (result.isDenied) {
-
-                    }
-                })
-                this.activeNotification = true
-            }
-
-        })
-    },
-
     created() {
         this.$store.dispatch("getPatients").then(
             respo => {

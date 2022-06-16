@@ -47,7 +47,6 @@
                         </b-row>
                 </div>
         </div>
-    </div>
 </template>
 
 <script>

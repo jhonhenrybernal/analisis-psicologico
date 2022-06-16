@@ -39,7 +39,6 @@
  
 <script>
 
-window.Pusher = require('pusher-js')
 export default {
     data() {
         return {
@@ -49,7 +48,6 @@ export default {
             event:''
         }
     },
-
     created() {
         this.$store.dispatch("getAssessments").then(
             respo => {

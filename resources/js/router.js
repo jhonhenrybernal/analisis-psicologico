@@ -3,33 +3,34 @@ import Router from 'vue-router'
 import authorizer from './store'
 
 
-import HomeComponent from './components/page/HomeComponent.vue'
+//import HomeComponent from './components/page/AdminPageComponent.vue'
 import Login from './components/auth/LoginComponent.vue'
 import Register from './components/auth/RegisterComponent.vue'
 
-import StepOne from './components/process-patients/StepsOneComponent.vue'
-import StepTwo from './components/process-patients/StepsTwoComponent.vue'
-import StepTree from './components/process-patients/StepsTreeComponent.vue'
-import StepFourt from './components/process-patients/StepsFourtComponent.vue'
-import StepFive from './components/process-patients/StepsFiveComponent.vue'
+import StepOne from './components/page/process-patients/StepsOneComponent.vue'
+import StepTwo from './components/page/process-patients/StepsTwoComponent.vue'
+import StepTree from './components/page/process-patients/StepsTreeComponent.vue'
+import StepFourt from './components/page/process-patients/StepsFourtComponent.vue'
+import StepFive from './components/page/process-patients/StepsFiveComponent.vue'
 
 import NotFound from './components/page/NotFoundComponent.vue'
 
 import Dashboard from './components/page/DashboardComponent.vue'
-import PatientsTable from './components/page/patient/table.vue'
-import PatientsEdit from './components/page/patient/edit.vue'
-import PatientsCreate from './components/page/patient/create.vue'
-import statusTable from './components/page/status/table.vue'
-import statusEdit from './components/page/status/edit.vue'
-import statusCreate from './components/page/status/create.vue'
-import tracingAssement from './components/page/assessment/tracing.vue'
-import tableAssessment from './components/page/assessment/table.vue'
-import imagesAssessmentTable from './components/page/imageAssessment/table.vue'
-import imagesAssessmentUpload from './components/page/imageAssessment/upload.vue'
-import questionTable from './components/page/question/table.vue'
-import questionEdit from './components/page/question/edit.vue'
-import questionCreate from './components/page/question/create.vue'
-
+import PatientsTable from './components/page/admin/patient/table.vue'
+import PatientsEdit from './components/page/admin/patient/edit.vue'
+import PatientsCreate from './components/page/admin/patient/create.vue'
+import statusTable from './components/page/admin/status/table.vue'
+import statusEdit from './components/page/admin/status/edit.vue'
+import statusCreate from './components/page/admin/status/create.vue'
+import tracingAssement from './components/page/admin/assessment/tracing.vue'
+import tableAssessment from './components/page/admin/assessment/table.vue'
+import imagesAssessmentTable from './components/page/admin/imageAssessment/table.vue'
+import imagesAssessmentUpload from './components/page/admin/imageAssessment/upload.vue'
+import questionTable from './components/page/admin/question/table.vue'
+import questionEdit from './components/page/admin/question/edit.vue'
+import questionCreate from './components/page/admin/question/create.vue'
+import selectImageQuestion from './components/page/admin/assessment/selectionImagesQuestions'
+import AdminComponent from './components/page/admin/adminComponent.vue'
 /**
  * @author Jhon Bernal
  * @description Parametrizacion  de rutas
@@ -47,10 +48,14 @@ function guard(to, from, next){
 
 const router = new Router({
 	mode:'history',
+	base: process.env.BASE_URL,
 	routes:[
     {
 			path:'/admin',name:'login',component:Login, meta : {guest: true}
 		},
+	{
+			path:'/adminitrator',name:'administrator',component:AdminComponent, beforeEnter: guard,
+			props:true }, 
     {
 			path:'/dashboard',name:'dashboard',component:Dashboard
 		},
@@ -93,6 +98,9 @@ const router = new Router({
     {
 			path:'/image-assessment/upload',name:'imageAssessmentImage',component:imagesAssessmentUpload, beforeEnter: guard
 		}, 
+    {
+			path:'/image-select-question',name:'selectImageQuestion',component:selectImageQuestion, beforeEnter: guard
+		},
     {
 			path:'/',name:'home',component:StepOne
 		},

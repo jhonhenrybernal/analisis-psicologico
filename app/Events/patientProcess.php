@@ -16,18 +16,18 @@ class patientProcess implements ShouldBroadcast
     public string $messagge;
     public bool $status;
     public array $params;
-    public string $statusAssement;  
+    public string $channel;  
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($messagge,$status,$params,$statusAssement)
+    public function __construct($messagge,$status,$params,$channel)
     {
         $this->messagge = $messagge;
         $this->status = $status;
         $this->params = $params;
-        $this->statusAssement = $statusAssement;
+        $this->channel = $channel;
     }
 
     /**
@@ -37,7 +37,6 @@ class patientProcess implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        //return new PrivateChannel('channel-name');
-        return new Channel('patient');
+        return new Channel( $this->channel);
     }
 }

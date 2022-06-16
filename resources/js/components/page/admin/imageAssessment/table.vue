@@ -34,8 +34,6 @@
 </template>
  
 <script>
-
-window.Pusher = require('pusher-js')
 export default {
     data() {
         return {
@@ -47,6 +45,7 @@ export default {
     },
 
     created() {
+        console.log('acass')
         this.$store.dispatch("getImages").then(
             respo => {
                 this.image = respo.data.data

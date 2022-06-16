@@ -26,8 +26,11 @@
                      <p>
                         Desalles de la valoración
                      </p>
+                      <p v-if="procesoPreImagenes">
+                        Tiene una imagen pre seleccinada, de click al boton <b>Ver selección de imagenes</b>
+                     </p>
                      <p>
-                        <button type="button" class="btn btn-success">Ver selección de imagenes</button>
+                        <button type="button" @click="selectImageQuestion(ass)" class="btn btn-success" >Ver selección de imagenes</button>
                      </p>
                   </div>
                   <div class="timeline-comment-box">
@@ -182,21 +185,56 @@
    </div>
 </template>
 <script>
+import Echo from 'laravel-echo'
+window.Pusher = require('pusher-js')
 export default {
    data() {
       return {
          assessmentProcess: [],
-         countAssessmentProcess: ''
+         countAssessmentProcess: '',
+         cantidadPreImg:0,
+         procesoPreImagenes:false,
       }
    },
+    mounted() {
+        window.Echo = new Echo({
+            broadcaster: 'pusher',
+            key: 'ASDASD2121',
+            wsHost: window.location.hostname,
+            wsPort: 6001,
+            disableStats: true,
+            disableStats: true,
+            forceTLS: false,
+            cantidadPreImg :0
+        })
+         window.Echo.channel('patient').listen('patientProcess', (e) => {
+            localStorage.removeItem('pathImagen');
+            if (e.status) {
+               if (e.params.action = 'nueva_pre_imagen') {
+                  this.procesoPreImagenes = true
+                  this.cantidadPreImg = e.params.imagenCantidad
+                  console.log(e)
+                  localStorage.setItem('pathImagen',e.params.imagen);
+               }
+            }
+
+        })
+    },
    created() {
       axios.get(`/assessments/process/${this.$route.params.id}`)
-         .then((res) => {
-               this.assessmentProcess = res.data.data;
-         });
+      .then((res) => {
+            this.assessmentProcess = res.data.data;
+      });
+
+      const storangpPreImagen = localStorage.getItem('preImagen', true)
+      if(storangpPreImagen){
+         this.procesoPreImagenes = true
+      }
     },
    methods: {
-
+      selectImageQuestion(params){
+         this.$router.push({ name: 'selectImageQuestion', params: {params } })   
+      }
 
    }
 }
