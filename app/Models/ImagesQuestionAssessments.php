@@ -14,7 +14,7 @@ class ImagesQuestionAssessments extends Model
     ];  
 
     public function imageAssessment(){
-        return $this->hasOne('App\Models\ImagesAssessment');
+        return $this->hasOne('App\Models\ImagesAssessment','id','image_id');
     }
 
     public function processAssessment(){

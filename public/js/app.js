@@ -5894,13 +5894,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       imagenPreseleccionada: false,
-      imagenNoPreseleccionada: true
+      imagenNoPreseleccionada: true,
+      process_assessments_id: 0,
+      listImage: []
     };
   },
   mounted: function mounted() {
@@ -5942,13 +5950,46 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
     });
     localStorage.removeItem('preImagen');
 
-    if (localStorage.getItem('pathImagen') != null) {
+    if (localStorage.getItem('pathImagen') !== null) {
+      console.log('aca es');
       this.imagenPreseleccionada = true;
       this.imagenNoPreseleccionada = false;
       this.imgPath = localStorage.getItem('pathImagen');
     }
+
+    this.listImageSelect();
   },
-  methods: {}
+  methods: {
+    addPreImage: function addPreImage(imgPath) {
+      var _this3 = this;
+
+      var preImages = {
+        path: this.imgPath,
+        process_assessments_id: this.$route.params.params.id
+      };
+      this.axios.post('/assessments/process/add-pre-image', preImages).then(function (response) {
+        return _this3.process_assessments_id = response.data.id;
+      })["catch"](function (err) {
+        return console.log(err);
+      })["finally"](function () {
+        return _this3.loading = false;
+      });
+      localStorage.removeItem('pathImagen');
+      localStorage.removeItem('preImagen');
+      this.imagenPreseleccionada = false;
+      this.imagenNoPreseleccionada = true;
+      this.imgPath = '';
+      this.listImageSelect();
+    },
+    listImageSelect: function listImageSelect() {
+      var _this4 = this;
+
+      console.log(this.$route.params.params.id);
+      this.axios.get("/assessments/process/all-image-select/".concat(this.$route.params.params.id)).then(function (res) {
+        _this4.listImage = res.data.data;
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -6276,7 +6317,6 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
         if (e.params.action = 'nueva_pre_imagen') {
           _this.procesoPreImagenes = true;
           _this.cantidadPreImg = e.params.imagenCantidad;
-          console.log(e);
           localStorage.setItem('pathImagen', e.params.imagen);
         }
       }
@@ -7393,6 +7433,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -7451,6 +7494,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
+window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -7476,6 +7521,29 @@ __webpack_require__.r(__webpack_exports__);
       _this.images = response.data.data;
     })["catch"](function (e) {
       console.log(e);
+    });
+  },
+  mounted: function mounted() {
+    var _Echo,
+        _this2 = this;
+
+    window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]((_Echo = {
+      broadcaster: 'pusher',
+      key: 'ASDASD2121',
+      wsHost: window.location.hostname,
+      wsPort: 6001,
+      disableStats: true
+    }, _defineProperty(_Echo, "disableStats", true), _defineProperty(_Echo, "forceTLS", false), _defineProperty(_Echo, "cantidadPreImg", 0), _defineProperty(_Echo, "selectImages", []), _Echo));
+    window.Echo.channel('patient').listen('patientProcess', function (e) {
+      if (e.status) {
+        if (e.params.action = 'nueva_pre_imagen_patient') {
+          if (e.params.evento == 'pre_patient') {
+            _this2.open = false;
+            _this2.imgPath = '';
+            _this2.selectImages = e.params.images_selected;
+          }
+        }
+      }
     });
   },
   methods: {
@@ -66251,11 +66319,49 @@ var render = function () {
         ]),
       ]),
       _vm._v(" "),
-      _vm._m(1),
+      _c("div", {}, [
+        _c(
+          "button",
+          {
+            staticClass: "button-select-image",
+            attrs: { type: "button" },
+            on: {
+              click: function ($event) {
+                return _vm.addPreImage(_vm.imgPath)
+              },
+            },
+          },
+          [_vm._v("Añadir imagen pre seleccionada")]
+        ),
+      ]),
       _vm._v(" "),
       _c("h4", [_vm._v("Imagenes seleccionadas")]),
       _vm._v(" "),
-      _vm._m(2),
+      _c(
+        "div",
+        {},
+        _vm._l(_vm.listImage, function (img) {
+          return _c(
+            "div",
+            { key: img.id, staticClass: "gallery-questions-select" },
+            [
+              _c("img", {
+                attrs: {
+                  src: "../" + img.image_assessment.path,
+                  alt: "Cinque Terre",
+                  width: "600",
+                  height: "400",
+                },
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "desc-questions-select" }, [
+                _vm._v("Add a description of the image here"),
+              ]),
+            ]
+          )
+        }),
+        0
+      ),
     ]),
   ])
 }
@@ -66270,128 +66376,6 @@ var staticRenderFns = [
       _c("div"),
       _c("div"),
       _c("div"),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", {}, [
-      _c(
-        "button",
-        { staticClass: "button-select-image", attrs: { type: "button" } },
-        [_vm._v("Iniciar cuestionario para la imagen pre seleccionada")]
-      ),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", {}, [
-      _c("div", { staticClass: "gallery-questions-select" }, [
-        _c(
-          "a",
-          {
-            attrs: {
-              target: "_blank",
-              href: "https://www.w3schools.com/css/img_5terre.jpg",
-            },
-          },
-          [
-            _c("img", {
-              attrs: {
-                src: "https://www.w3schools.com/css/img_5terre.jpg",
-                alt: "Cinque Terre",
-                width: "600",
-                height: "400",
-              },
-            }),
-          ]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "desc-questions-select" }, [
-          _vm._v("Add a description of the image here"),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "gallery-questions-select" }, [
-        _c(
-          "a",
-          {
-            attrs: {
-              target: "_blank",
-              href: "https://www.w3schools.com/css/img_forest.jpg",
-            },
-          },
-          [
-            _c("img", {
-              attrs: {
-                src: "https://www.w3schools.com/css/img_forest.jpg",
-                alt: "Forest",
-                width: "600",
-                height: "400",
-              },
-            }),
-          ]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "desc-questions-select" }, [
-          _vm._v("Add a description of the image here"),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "gallery-questions-select" }, [
-        _c(
-          "a",
-          {
-            attrs: {
-              target: "_blank",
-              href: "https://www.w3schools.com/css/img_lights.jpg",
-            },
-          },
-          [
-            _c("img", {
-              attrs: {
-                src: "https://www.w3schools.com/css/img_lights.jpg",
-                alt: "Northern Lights",
-                width: "600",
-                height: "400",
-              },
-            }),
-          ]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "desc-questions-select" }, [
-          _vm._v("Add a description of the image here"),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "gallery-questions-select" }, [
-        _c(
-          "a",
-          {
-            attrs: {
-              target: "_blank",
-              href: "https://www.w3schools.com/css/img_mountains.jpg",
-            },
-          },
-          [
-            _c("img", {
-              attrs: {
-                src: "https://www.w3schools.com/css/img_mountains.jpg",
-                alt: "Mountains",
-                width: "600",
-                height: "400",
-              },
-            }),
-          ]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "desc-questions-select" }, [
-          _vm._v("Add a description of the image here"),
-        ]),
-      ]),
     ])
   },
 ]

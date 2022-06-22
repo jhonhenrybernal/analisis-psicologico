@@ -213,7 +213,6 @@ export default {
                if (e.params.action = 'nueva_pre_imagen') {
                   this.procesoPreImagenes = true
                   this.cantidadPreImg = e.params.imagenCantidad
-                  console.log(e)
                   localStorage.setItem('pathImagen',e.params.imagen);
                }
             }

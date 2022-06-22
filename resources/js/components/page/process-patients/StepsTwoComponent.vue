@@ -57,6 +57,9 @@
   </div>
 </template>
 <script>
+
+import Echo from 'laravel-echo'
+window.Pusher = require('pusher-js')
 export default {
   
   data() {
@@ -83,6 +86,34 @@ export default {
     }).catch(e => {
         console.log(e);
     });
+  },
+    mounted() {
+      window.Echo = new Echo({
+          broadcaster: 'pusher',
+          key: 'ASDASD2121',
+          wsHost: window.location.hostname,
+          wsPort: 6001,
+          disableStats: true,
+          disableStats: true,
+          forceTLS: false,
+          cantidadPreImg :0,
+          selectImages:[]
+          
+      })
+        window.Echo.channel('patient').listen('patientProcess', (e) => {
+          if (e.status) {
+              if (e.params.action = 'nueva_pre_imagen_patient') {
+                if (e.params.evento == 'pre_patient') {      
+                    this.open = false
+                    this.imgPath = ''
+                    this.selectImages = e.params.images_selected
+
+                }
+              }
+                
+          }
+
+      })
   },
   methods: {
     clickSelect:function (img) {

@@ -39,6 +39,8 @@ Route::group(['middleware'=>'jwt.verify'],function(){
     Route::resource('status',StatusController::class);
     Route::resource('imagesAssessment',ImagesAssessmentController::class);
     Route::resource('questions',QuestionsController::class);
-    Route::get('/assessments/process/{id}', [App\Http\Controllers\ProcessAssessmentController::class, 'findAll']);  
+    Route::get('/assessments/process/{id}', [App\Http\Controllers\ProcessAssessmentController::class, 'findAll']); 
+    Route::post('/assessments/process/add-pre-image', [App\Http\Controllers\ProcessAssessmentController::class, 'addPreSelect']); 
+    Route::get('/assessments/process/all-image-select/{id}', [App\Http\Controllers\ProcessAssessmentController::class, 'allImageSelect']);  
     //Route::resource('todos','TodoController');
 });
