@@ -15,10 +15,12 @@
                   <button type="button" class="button-select-image" @click="addPreImage(imgPath)">Añadir imagen pre seleccionada</button>
             </div>
             <h4>Imagenes seleccionadas</h4>
-            <div class="">
-                <div v-for="img in listImage" :key="img.id" class="gallery-questions-select">
-                    <img v-bind:src="'../'+img.image_assessment.path"  alt="Cinque Terre" width="600" height="400">
-                    <div class="desc-questions-select">Add a description of the image here</div>  
+             <div class="container">
+                <div class="row-images"> 
+                    <div v-for="img in listImage" :key="img.id" class="column-images" >
+                        <img v-bind:src="'../'+img.image_assessment.path"  alt="Cinque Terre" width="600" height="400">
+                        <div class="desc-questions-select">Add a description of the image here</div>  
+                    </div>
                 </div>
             </div>
            <!--  <div class="">
