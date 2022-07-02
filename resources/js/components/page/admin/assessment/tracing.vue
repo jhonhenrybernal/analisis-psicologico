@@ -27,7 +27,7 @@
                         <h4>Detalles de la valoración</h4> 
                      </p>
                       <p v-if="ass.status.name == 'invitacion_enviada'">
-                        Existe una invitación con el codigo {{ass.assessment.code_invitation }} al correo {{ass.assessment.patient.email}}.
+                        Existe una invitación con el codigo {{ass.assessment.code_invitation }} al correo {{ass.assessment.patient.email}} y al WhatsApp {{ass.assessment.patient.phoneWhatssap}}.
                      </p>
                       <p v-if="procesoPreImagenes && ass.status.name != 'invitacion_enviada'">
                         Tiene una imagen pre seleccinada, de click al boton <b>Ver selección de imagenes</b>
@@ -211,6 +211,7 @@ export default {
             cantidadPreImg :0
         })
          window.Echo.channel('patient').listen('patientProcess', (e) => {
+            this.getProcessAssessment()
             localStorage.removeItem('pathImagen');
             if (e.status) {
                if (e.params.action = 'nueva_pre_imagen') {
@@ -230,19 +231,22 @@ export default {
         })
     },
    created() {
-      axios.get(`/assessments/process/${this.$route.params.id}`)
-      .then((res) => {
-            this.assessmentProcess = res.data.data;
-      });
-
-      const storangpPreImagen = localStorage.getItem('preImagen', true)
-      if(storangpPreImagen){
-         this.procesoPreImagenes = true
-      }
+     this.getProcessAssessment()
     },
    methods: {
       selectImageQuestion(params){
          this.$router.push({ name: 'selectImageQuestion', params: {params } })   
+      },
+      getProcessAssessment(){
+          axios.get(`/assessments/process/${this.$route.params.id}`)
+         .then((res) => {
+               this.assessmentProcess = res.data.data;
+         });
+
+         const storangpPreImagen = localStorage.getItem('preImagen', true)
+         if(storangpPreImagen){
+            this.procesoPreImagenes = true
+         }
       }
 
    }

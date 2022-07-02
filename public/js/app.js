@@ -6333,6 +6333,8 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
       disableStats: true
     }, _defineProperty(_Echo, "disableStats", true), _defineProperty(_Echo, "forceTLS", false), _defineProperty(_Echo, "cantidadPreImg", 0), _Echo));
     window.Echo.channel('patient').listen('patientProcess', function (e) {
+      _this.getProcessAssessment();
+
       localStorage.removeItem('pathImagen');
 
       if (e.status) {
@@ -6353,16 +6355,7 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
     });
   },
   created: function created() {
-    var _this2 = this;
-
-    axios.get("/assessments/process/".concat(this.$route.params.id)).then(function (res) {
-      _this2.assessmentProcess = res.data.data;
-    });
-    var storangpPreImagen = localStorage.getItem('preImagen', true);
-
-    if (storangpPreImagen) {
-      this.procesoPreImagenes = true;
-    }
+    this.getProcessAssessment();
   },
   methods: {
     selectImageQuestion: function selectImageQuestion(params) {
@@ -6372,6 +6365,18 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
           params: params
         }
       });
+    },
+    getProcessAssessment: function getProcessAssessment() {
+      var _this2 = this;
+
+      axios.get("/assessments/process/".concat(this.$route.params.id)).then(function (res) {
+        _this2.assessmentProcess = res.data.data;
+      });
+      var storangpPreImagen = localStorage.getItem('preImagen', true);
+
+      if (storangpPreImagen) {
+        this.procesoPreImagenes = true;
+      }
     }
   }
 });
@@ -66617,6 +66622,8 @@ var render = function () {
                                 _vm._s(ass.assessment.code_invitation) +
                                 " al correo " +
                                 _vm._s(ass.assessment.patient.email) +
+                                " y al WhatsApp " +
+                                _vm._s(ass.assessment.patient.phoneWhatssap) +
                                 ".\n                  "
                             ),
                           ])
