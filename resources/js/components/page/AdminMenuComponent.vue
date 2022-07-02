@@ -84,7 +84,6 @@ export default {
                if (e.params.action == 'nueva_pre_imagen') {
                   localStorage.setItem('preImagen', true)
                }
-
                if (e.params.action =='acceso') {
                     Swal.fire({
                         title: 'Hola!',

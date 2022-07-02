@@ -113,7 +113,6 @@ export default {
             }).catch(err => this.error(err));
             localStorage.removeItem('preImagen');
             if (localStorage.getItem('pathImagen') !== null) {
-                console.log('aca es')
                 this.imagenPreseleccionada = true
                 this.imagenNoPreseleccionada =false
                 this.imgPath  = localStorage.getItem('pathImagen');

@@ -46,7 +46,7 @@ class PatientController extends Controller
         }
 
         try {
-            $invitacion = Status::where('name','invitacion-enviada')->value('id');
+            $invitacion = Status::where('name','invitacion_enviada')->value('id');
             $Patient = new Patient([
                 'firstName' => $request->input('firstName'),
                 'lastName' => $request->input('lastName'),

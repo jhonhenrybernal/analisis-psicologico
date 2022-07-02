@@ -51,7 +51,7 @@ const router = new Router({
 	base: process.env.BASE_URL,
 	routes:[
     {
-			path:'/admin',name:'login',component:Login, meta : {guest: true}
+			path:'/admin',name:'login',component:Login,
 		},
 	{
 			path:'/adminitrator',name:'administrator',component:AdminComponent, beforeEnter: guard,

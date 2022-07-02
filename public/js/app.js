@@ -5326,9 +5326,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       name: 'Login',
       alert: false,
-      messageError: '',
+      messageAlert: '',
       typeAlert: false,
-      classAlert: '',
+      classAlertError: false,
       form: {
         email: '',
         password: ''
@@ -5341,20 +5341,35 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this = this;
 
       this.$store.dispatch('login', this.form).then(function () {
-        return _this.$router.push({
-          name: 'administrator',
-          params: {
-            view: 'patient-table'
-          }
-        });
+        return _this.success();
       })["catch"](function (err) {
         return _this.error(err);
       });
     },
+    success: function success() {
+      this.alert = true;
+      this.classAlertSuccess = true;
+      this.messageAlert = 'Bienvenido';
+      this.$router.push({
+        name: 'administrator',
+        params: {
+          view: 'patient-table'
+        }
+      });
+      this.timeout();
+    },
     error: function error(value) {
       this.alert = true;
-      this.classAlert = 'alert-danger';
-      this.messageError = 'Error al acceder verifique correo o contraseña';
+      this.classAlertError = true;
+      this.messageAlert = 'Error al acceder verifique correo o contraseña';
+      this.timeout();
+    },
+    timeout: function timeout() {
+      var _this2 = this;
+
+      setTimeout(function () {
+        _this2.alert = false;
+      }, 3000);
     }
   })
 });
@@ -5951,7 +5966,6 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
     localStorage.removeItem('preImagen');
 
     if (localStorage.getItem('pathImagen') !== null) {
-      console.log('aca es');
       this.imagenPreseleccionada = true;
       this.imagenNoPreseleccionada = false;
       this.imgPath = localStorage.getItem('pathImagen');
@@ -6315,9 +6329,17 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
 
       if (e.status) {
         if (e.params.action = 'nueva_pre_imagen') {
-          _this.procesoPreImagenes = true;
+          if (e.params.evento === 'pre') {
+            _this.procesoPreImagenes = true;
+            localStorage.setItem('pathImagen', e.params.imagen);
+          }
+
+          if (e.params.evento === 'close') {
+            _this.procesoPreImagenes = false;
+            localStorage.removeItem('pathImagen');
+          }
+
           _this.cantidadPreImg = e.params.imagenCantidad;
-          localStorage.setItem('pathImagen', e.params.imagen);
         }
       }
     });
@@ -6406,7 +6428,6 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    console.log('acass');
     this.$store.dispatch("getImages").then(function (respo) {
       _this.image = respo.data.data;
     })["catch"](function (err) {
@@ -7652,6 +7673,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   created: function created() {
+    console.log(this.isLoggedIn);
+
     if (this.isLoggedIn) {
       this.$store.dispatch("getUser");
     }
@@ -7890,10 +7913,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
   routes: [{
     path: '/admin',
     name: 'login',
-    component: _components_auth_LoginComponent_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-    meta: {
-      guest: true
-    }
+    component: _components_auth_LoginComponent_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   }, {
     path: '/adminitrator',
     name: 'administrator',
@@ -65541,13 +65561,16 @@ var render = function () {
                       "div",
                       {
                         staticClass: "alert",
-                        class: { "alert-danger": _vm.classAlert },
+                        class: {
+                          "alert-danger": _vm.classAlertError,
+                          "alert-success": _vm.classAlertSuccess,
+                        },
                         attrs: { role: "alert" },
                       },
                       [
                         _vm._v(
                           "\n                              " +
-                            _vm._s(_vm.messageError) +
+                            _vm._s(_vm.messageAlert) +
                             "\n                   "
                         ),
                       ]
@@ -68699,7 +68722,7 @@ var render = function () {
         [
           _c("admin-process-patients-component"),
           _vm._v(" "),
-          _c("admin-menu-component"),
+          _vm.isLoggedIn ? _c("admin-menu-component") : _vm._e(),
           _vm._v(" "),
           _c(
             "main",

@@ -45,7 +45,6 @@ export default {
     },
 
     created() {
-        console.log('acass')
         this.$store.dispatch("getImages").then(
             respo => {
                 this.image = respo.data.data

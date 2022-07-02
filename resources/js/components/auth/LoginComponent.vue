@@ -6,8 +6,8 @@
               <div class="card-body pt-5 pb-5">
                  <h1 class="text-muted">Acceso</h1>
                   <form action="" method="post" @submit.prevent="submit">
-                    <div class="alert" v-bind:class="{'alert-danger':classAlert}" v-if="alert" role="alert">
-                                {{messageError}}
+                    <div class="alert" v-bind:class="{'alert-danger':classAlertError,'alert-success':classAlertSuccess}" v-if="alert" role="alert">
+                                {{messageAlert}}
                      </div>
                      <div class="form-group">
                         <label for="exampleInputEmail1">Dirección de correo electrónico</label>
@@ -41,9 +41,9 @@ import { mapActions } from 'vuex'
       return{
          name:'Login',
          alert:false,
-         messageError:'',
+         messageAlert:'',
          typeAlert:false,
-         classAlert:'',
+         classAlertError:false,
       	form:{
       		email:'',
       		password:''
@@ -57,13 +57,26 @@ import { mapActions } from 'vuex'
 
         submit: function () {
            this.$store.dispatch('login', this.form)
-          .then(() =>this.$router.push({ name: 'administrator', params: { view: 'patient-table' } })   
+          .then(() => this.success()   
           ).catch(err => this.error(err))
+        },
+        success(){
+         this.alert=true
+         this.classAlertSuccess= true
+         this.messageAlert= 'Bienvenido'
+         this.$router.push({ name: 'administrator', params: { view: 'patient-table' } })
+         this.timeout()
         },
         error(value){
             this.alert=true
-            this.classAlert= 'alert-danger'
-            this.messageError= 'Error al acceder verifique correo o contraseña'
+            this.classAlertError= true
+            this.messageAlert= 'Error al acceder verifique correo o contraseña'
+            this.timeout()
+        },
+        timeout(){
+            setTimeout(() => {
+               this.alert = false
+            }, 3000);
         }
     }
 

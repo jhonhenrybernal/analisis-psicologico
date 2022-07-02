@@ -11,9 +11,9 @@
 
     <div class="container-fluid">
       <div class="row">
-        <admin-process-patients-component></admin-process-patients-component>
+        <admin-process-patients-component ></admin-process-patients-component>
         <!------------fin de header para todos---------------->
-        <admin-menu-component></admin-menu-component>
+        <admin-menu-component v-if="isLoggedIn"></admin-menu-component>
         <main :class="{ 'col-md-9 ms-sm-auto col-lg-10 px-md-4': isLoggedIn }">
           <div class="mt-5 pt-3">
             <transition name="view">
@@ -44,6 +44,7 @@ export default {
     },
   },
   created() {
+    console.log(this.isLoggedIn)
     if (this.isLoggedIn) {
       this.$store.dispatch("getUser");
     }

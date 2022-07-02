@@ -211,9 +211,16 @@ export default {
             localStorage.removeItem('pathImagen');
             if (e.status) {
                if (e.params.action = 'nueva_pre_imagen') {
-                  this.procesoPreImagenes = true
+                  if (e.params.evento === 'pre') {
+                     this.procesoPreImagenes = true   
+                     localStorage.setItem('pathImagen',e.params.imagen);
+                  }
+                  if (e.params.evento === 'close') {
+                     this.procesoPreImagenes = false   
+                     localStorage.removeItem('pathImagen');
+                  }
                   this.cantidadPreImg = e.params.imagenCantidad
-                  localStorage.setItem('pathImagen',e.params.imagen);
+                  
                }
             }
 

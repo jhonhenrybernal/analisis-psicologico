@@ -25,7 +25,7 @@ use App\http\Controllers\ProcessAssessmentController;
 });
 
  */
-//Route::post('/register', [App\Http\Controllers\Api\AuthController::class, 'register']); 
+Route::post('/register', [App\Http\Controllers\Api\AuthController::class, 'register']); 
 Route::post('/login', [App\Http\Controllers\Api\AuthController::class, 'login']);
 
 Route::post('/assessments/access/patients', [App\Http\Controllers\AssessmentsController::class, 'access'])->name('assessments-access');
