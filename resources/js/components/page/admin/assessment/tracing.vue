@@ -16,7 +16,7 @@
                </div>
                 <div class="timeline-body">
                   <div class="timeline-header">
-                     <span class="userimage"><img
+                     <span  class="userimage"><img
                            src="https://e7.pngegg.com/pngimages/369/691/png-clipart-avatar-computer-icons-patient-avatar-heroes-logo.png"
                            alt=""></span>
                      <span class="username"><a href="javascript:;"><b>Nombre de paciente:</b> {{ass.assessment.patient.firstName}} {{ass.assessment.patient.lastName}}</a> <small></small></span>
@@ -24,16 +24,19 @@
                   </div>
                   <div class="timeline-content">
                      <p>
-                        Desalles de la valoración
+                        <h4>Detalles de la valoración</h4> 
                      </p>
-                      <p v-if="procesoPreImagenes">
+                      <p v-if="ass.status.name == 'invitacion_enviada'">
+                        Existe una invitación con el codigo {{ass.assessment.code_invitation }} al correo {{ass.assessment.patient.email}}.
+                     </p>
+                      <p v-if="procesoPreImagenes && ass.status.name != 'invitacion_enviada'">
                         Tiene una imagen pre seleccinada, de click al boton <b>Ver selección de imagenes</b>
                      </p>
-                     <p>
+                     <p v-if="ass.status.name == 'seleccion_imagenes'">
                         <button type="button" @click="selectImageQuestion(ass)" class="btn btn-success" >Ver selección de imagenes</button>
                      </p>
                   </div>
-                  <div class="timeline-comment-box">
+                  <div class="timeline-comment-box" v-if="ass.status.name == 'seleccion_imagenes'">
                      <div class="user"><img src="https://bootdey.com/img/Content/avatar/avatar6.png"></div>
                      <div class="input">
                         <form action="">

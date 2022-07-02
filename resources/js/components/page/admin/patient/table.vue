@@ -15,7 +15,6 @@
                                     <th>Apellido</th>
                                     <th>Numero Whatssap</th>
                                     <th>Correo</th>
-                                    <th>Estado</th>
                                     <!-- <th>Actions</th> -->
                                 </tr>
                             </thead>
@@ -26,7 +25,6 @@
                                     <td>{{ patient.lastName }}</td>
                                     <td>{{ patient.phoneWhatssap }}</td>
                                     <td>{{ patient.email }}</td>
-                                    <td>{{ patient.status.description }}</td>
                                     <td>{{ patient.name }}</td>
                                     <td>{{ patient.detail }}</td>
                                     <td>

@@ -5915,6 +5915,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -6057,7 +6059,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -6078,7 +6079,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     executeEvent: function executeEvent(id, status) {
-      if (status == 'valoracion_iniciada') {
+      if (status == 'valoracion_iniciada' || status == 'invitacion_enviada') {
         this.event = 'Ver valoración';
         this.$router.push({
           name: 'tracingAssessment',
@@ -6093,6 +6094,10 @@ __webpack_require__.r(__webpack_exports__);
 
       if (status == 'valoracion_iniciada') {
         name = 'Ver valoración';
+      }
+
+      if (status == 'invitacion_enviada') {
+        name = 'Ver invitacion';
       }
 
       return name;
@@ -6116,6 +6121,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
 //
 //
 //
@@ -6657,8 +6665,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
-//
 //
 //
 //
@@ -66360,14 +66366,12 @@ var render = function () {
       _vm._v(" "),
       _c("h4", [_vm._v("Imagenes seleccionadas")]),
       _vm._v(" "),
-      _c(
-        "div",
-        {},
-        _vm._l(_vm.listImage, function (img) {
-          return _c(
-            "div",
-            { key: img.id, staticClass: "gallery-questions-select" },
-            [
+      _c("div", { staticClass: "container" }, [
+        _c(
+          "div",
+          { staticClass: "row-images" },
+          _vm._l(_vm.listImage, function (img) {
+            return _c("div", { key: img.id, staticClass: "column-images" }, [
               _c("img", {
                 attrs: {
                   src: "../" + img.image_assessment.path,
@@ -66380,11 +66384,11 @@ var render = function () {
               _c("div", { staticClass: "desc-questions-select" }, [
                 _vm._v("Add a description of the image here"),
               ]),
-            ]
-          )
-        }),
-        0
-      ),
+            ])
+          }),
+          0
+        ),
+      ]),
     ]),
   ])
 }
@@ -66427,78 +66431,61 @@ var render = function () {
   return _c("div", [
     _c("div", { staticClass: "container" }, [
       _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-12" },
-          [
-            _c(
-              "router-link",
-              {
-                staticClass: "btn btn-success",
-                attrs: { to: { name: "patientCreate" } },
-              },
-              [_vm._v("Crear")]
-            ),
-            _vm._v(" "),
-            _c("h2", { staticClass: "text-center" }, [
-              _vm._v("Lista " + _vm._s(_vm.nameTable)),
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "table-responsive" }, [
-              _c("table", { staticClass: "table" }, [
-                _vm._m(0),
-                _vm._v(" "),
-                _c(
-                  "tbody",
-                  _vm._l(_vm.assessment, function (ass) {
-                    return _c("tr", { key: ass.id }, [
-                      _c("td", [_vm._v(_vm._s(ass.id))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v(
-                          _vm._s(ass.patient.firstName) +
-                            " " +
-                            _vm._s(ass.patient.lastName)
-                        ),
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(ass.status.description))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "div",
-                          {
-                            staticClass: "btn-group",
-                            attrs: { role: "group" },
-                          },
-                          [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-success",
-                                on: {
-                                  click: function ($event) {
-                                    return _vm.executeEvent(
-                                      ass.id,
-                                      ass.status.name
-                                    )
-                                  },
+        _c("div", { staticClass: "col-12" }, [
+          _c("h2", { staticClass: "text-center" }, [
+            _vm._v("Lista " + _vm._s(_vm.nameTable)),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "table-responsive" }, [
+            _c("table", { staticClass: "table" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.assessment, function (ass) {
+                  return _c("tr", { key: ass.id }, [
+                    _c("td", [_vm._v(_vm._s(ass.id))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(ass.patient.firstName) +
+                          " " +
+                          _vm._s(ass.patient.lastName)
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(ass.status.description))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "div",
+                        { staticClass: "btn-group", attrs: { role: "group" } },
+                        [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-success",
+                              on: {
+                                click: function ($event) {
+                                  return _vm.executeEvent(
+                                    ass.id,
+                                    ass.status.name
+                                  )
                                 },
                               },
-                              [_vm._v(_vm._s(_vm.nameEvent(ass.status.name)))]
-                            ),
-                          ]
-                        ),
-                      ]),
-                    ])
-                  }),
-                  0
-                ),
-              ]),
+                            },
+                            [_vm._v(_vm._s(_vm.nameEvent(ass.status.name)))]
+                          ),
+                        ]
+                      ),
+                    ]),
+                  ])
+                }),
+                0
+              ),
             ]),
-          ],
-          1
-        ),
+          ]),
+        ]),
       ]),
     ]),
   ])
@@ -66618,13 +66605,25 @@ var render = function () {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "timeline-content" }, [
-                      _c("p", [
-                        _vm._v(
-                          "\n                     Desalles de la valoración\n                  "
-                        ),
-                      ]),
+                      _c("p"),
+                      _c("h4", [_vm._v("Detalles de la valoración")]),
                       _vm._v(" "),
-                      _vm.procesoPreImagenes
+                      _c("p"),
+                      _vm._v(" "),
+                      ass.status.name == "invitacion_enviada"
+                        ? _c("p", [
+                            _vm._v(
+                              "\n                     Existe una invitación con el codigo " +
+                                _vm._s(ass.assessment.code_invitation) +
+                                " al correo " +
+                                _vm._s(ass.assessment.patient.email) +
+                                ".\n                  "
+                            ),
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.procesoPreImagenes &&
+                      ass.status.name != "invitacion_enviada"
                         ? _c("p", [
                             _vm._v(
                               "\n                     Tiene una imagen pre seleccinada, de click al boton "
@@ -66633,28 +66632,36 @@ var render = function () {
                           ])
                         : _vm._e(),
                       _vm._v(" "),
-                      _c("p", [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-success",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function ($event) {
-                                return _vm.selectImageQuestion(ass)
+                      ass.status.name == "seleccion_imagenes"
+                        ? _c("p", [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-success",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function ($event) {
+                                    return _vm.selectImageQuestion(ass)
+                                  },
+                                },
                               },
-                            },
-                          },
-                          [_vm._v("Ver selección de imagenes")]
-                        ),
-                      ]),
+                              [_vm._v("Ver selección de imagenes")]
+                            ),
+                          ])
+                        : _vm._e(),
                     ]),
                     _vm._v(" "),
-                    _vm._m(2, true),
+                    ass.status.name == "seleccion_imagenes"
+                      ? _c("div", { staticClass: "timeline-comment-box" }, [
+                          _vm._m(2, true),
+                          _vm._v(" "),
+                          _vm._m(3, true),
+                        ])
+                      : _vm._e(),
                   ]),
                 ])
               : _c("li", [
-                  _vm._m(3, true),
+                  _vm._m(4, true),
                   _vm._v(" "),
                   _c("div", { staticClass: "timeline-body" }, [
                     _vm._v(
@@ -66695,34 +66702,36 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "timeline-comment-box" }, [
-      _c("div", { staticClass: "user" }, [
-        _c("img", {
-          attrs: { src: "https://bootdey.com/img/Content/avatar/avatar6.png" },
-        }),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "input" }, [
-        _c("form", { attrs: { action: "" } }, [
-          _c("div", { staticClass: "input-group" }, [
-            _c("input", {
-              staticClass: "form-control rounded-corner",
-              attrs: {
-                type: "text",
-                placeholder: "Añadir Detalles de la valoracion",
+    return _c("div", { staticClass: "user" }, [
+      _c("img", {
+        attrs: { src: "https://bootdey.com/img/Content/avatar/avatar6.png" },
+      }),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input" }, [
+      _c("form", { attrs: { action: "" } }, [
+        _c("div", { staticClass: "input-group" }, [
+          _c("input", {
+            staticClass: "form-control rounded-corner",
+            attrs: {
+              type: "text",
+              placeholder: "Añadir Detalles de la valoracion",
+            },
+          }),
+          _vm._v(" "),
+          _c("span", { staticClass: "input-group-btn p-l-10" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary f-s-12 rounded-corner",
+                attrs: { type: "button" },
               },
-            }),
-            _vm._v(" "),
-            _c("span", { staticClass: "input-group-btn p-l-10" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary f-s-12 rounded-corner",
-                  attrs: { type: "button" },
-                },
-                [_vm._v("Comentar")]
-              ),
-            ]),
+              [_vm._v("Comentar")]
+            ),
           ]),
         ]),
       ]),
@@ -67328,8 +67337,6 @@ var render = function () {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(patient.email))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(patient.status.description))]),
-                      _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(patient.name))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(patient.detail))]),
@@ -67388,8 +67395,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Numero Whatssap")]),
         _vm._v(" "),
         _c("th", [_vm._v("Correo")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Estado")]),
       ]),
     ])
   },

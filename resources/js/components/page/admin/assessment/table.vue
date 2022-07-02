@@ -3,7 +3,6 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <router-link :to="{ name: 'patientCreate' }" class="btn btn-success">Crear</router-link>
                     <h2 class="text-center">Lista {{ nameTable }}</h2>
 
                     <div class="table-responsive">
@@ -23,7 +22,7 @@
                                     <td>{{ ass.status.description}}</td>
                                     <td>
                                         <div class="btn-group" role="group">
-                                            <button @click="executeEvent(ass.id,ass.status.name)"
+                                            <button  @click="executeEvent(ass.id,ass.status.name)"
                                                 class="btn btn-success">{{nameEvent(ass.status.name)}}</button>
                                         </div>
                                     </td>
@@ -57,7 +56,7 @@ export default {
     methods:{
         executeEvent(id,status){
 
-            if (status == 'valoracion_iniciada') {
+            if (status == 'valoracion_iniciada' || status == 'invitacion_enviada') {
                 this.event = 'Ver valoración'
                 this.$router.push({ name: 'tracingAssessment', params: { id: id } })   
             }
@@ -66,7 +65,10 @@ export default {
             let name = ''
             if (status == 'valoracion_iniciada') {
                 name = 'Ver valoración'
-                 
+            }
+            
+            if (status == 'invitacion_enviada') {
+                name = 'Ver invitacion'
             }
             return name
         }

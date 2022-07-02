@@ -26,7 +26,7 @@ class ProcessAssessmentController extends Controller
     * @param id The id of the assessment
     */
     public function findAll($id){
-        $processAssessment = ProcessAssessment::where('assessment_id',$id)->with('status','assessment','assessment.patient')->get();
+        $processAssessment = ProcessAssessment::where('assessment_id',$id)->with('status','assessment','assessment.patient')->orderBy('id','desc')->get();
         return response()->json(['status'=>'ok', 'message' => '', 'data'=> $processAssessment], 200); 
     }
 

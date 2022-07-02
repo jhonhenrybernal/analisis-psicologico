@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Patient;
 use App\Models\Status;
 use App\Models\Assessment;
+use App\Models\ProcessAssessment;
 use Mail;
 use \App\Mail\invitacionValoracion;
 use Illuminate\Support\Facades\Validator;
@@ -46,31 +47,39 @@ class PatientController extends Controller
         }
 
         try {
-            $invitacion = Status::where('name','invitacion_enviada')->value('id');
-            $Patient = new Patient([
+            $invitacion = Status::where('name','invitacion_enviada')->first();
+            $patient = new Patient([
                 'firstName' => $request->input('firstName'),
                 'lastName' => $request->input('lastName'),
                 'phoneWhatssap' => $request->input('phoneWhatssap'),
                 'email' => $request->input('email'),
-                'status_id' => $invitacion,
+                'status_id' => $invitacion->id,
             ]);
-            $Patient->save();
+            $patient->save();
             $code =  generateValueDinamic('6','numero');
             $assessment = new Assessment([
-                'patients_id' => $Patient->id,
+                'patients_id' => $patient->id,
                 'code_invitation' => $code,
-                'status_id' => $invitacion
+                'status_id' => $invitacion->id
             ]);
             $assessment->save();
+
+            $processAssessment = new ProcessAssessment([
+                'status_id' => $invitacion->id,
+                'observations' => $invitacion->description,
+                'check' => 0,
+                'assessment_id' => $assessment->id
+            ]);
+            $processAssessment->save();
             
             $data = [
                 'code' => $code,
                 'url' => url('')
             ];
            
-            Mail::to($Patient->email)->send(new invitacionValoracion($data));
+            Mail::to($patient->email)->send(new invitacionValoracion($data));
     
-            return response()->json(['status'=>'ok', 'message' => 'Paciente creado!', 'data'=> $Patient], 200);
+            return response()->json(['status'=>'ok', 'message' => 'Paciente creado!', 'data'=> $patient], 200);
         } catch (\Throwable $th) {
             return response()->json(['status'=>'error', 'message' => $th->getMessage(), 'data'=> ''], 500);
         }
