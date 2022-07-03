@@ -5500,15 +5500,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 //
 //
 //
@@ -5573,49 +5570,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-
-window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "App",
-  mounted: function mounted() {
-    var _Echo,
-        _this = this;
-
-    window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_1__["default"]((_Echo = {
-      broadcaster: 'pusher',
-      key: 'ASDASD2121',
-      wsHost: window.location.hostname,
-      wsPort: 6001,
-      disableStats: true
-    }, _defineProperty(_Echo, "disableStats", true), _defineProperty(_Echo, "forceTLS", false), _defineProperty(_Echo, "cantidadPreImg", 0), _Echo));
-    window.Echo.channel('patient').listen('patientProcess', function (e) {
-      if (e.status && _this.routeCurrent == 'administrator') {
-        if (e.params.action == 'nueva_pre_imagen') {
-          localStorage.setItem('preImagen', true);
-        }
-
-        if (e.params.action == 'acceso') {
-          Swal.fire({
-            title: 'Hola!',
-            text: 'Tienes una nueva valoracion del paciente ' + e.params.nombrePaciente,
-            icon: 'info',
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: '<i class="fa fa-thumbs-up"></i> Iniciar Valoración!'
-          }).then(function (result) {
-            if (result.isConfirmed) {
-              _this.$router.push({
-                name: 'tracingAssessment',
-                params: {
-                  id: e.params.idValoracion
-                }
-              });
-            } else if (result.isDenied) {}
-          });
-          _this.activeNotification = true;
-        }
-      }
-    });
-  },
   data: function data() {
     return {
       items: [{
@@ -5662,7 +5618,7 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
   },
   methods: {
     logout: function logout() {
-      var _this2 = this;
+      var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
@@ -5670,10 +5626,10 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _this2.$store.dispatch("logout");
+                return _this.$store.dispatch("logout");
 
               case 2:
-                _this2.$router.push("/");
+                _this.$router.push("/");
 
               case 3:
               case "end":
@@ -5803,6 +5759,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _imageAssessment_table_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./imageAssessment/table.vue */ "./resources/js/components/page/admin/imageAssessment/table.vue");
 /* harmony import */ var _question_table_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./question/table.vue */ "./resources/js/components/page/admin/question/table.vue");
 /* harmony import */ var _status_table_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./status/table.vue */ "./resources/js/components/page/admin/status/table.vue");
+/* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -5818,6 +5777,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -5832,8 +5793,45 @@ __webpack_require__.r(__webpack_exports__);
     Status: _status_table_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   mounted: function mounted() {
+    var _Echo,
+        _this = this;
+
     this.view = '';
     this.view = this.$route.params.view;
+    window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_5__["default"]((_Echo = {
+      broadcaster: 'pusher',
+      key: 'ASDASD2121',
+      wsHost: window.location.hostname,
+      wsPort: 6001,
+      disableStats: true
+    }, _defineProperty(_Echo, "disableStats", true), _defineProperty(_Echo, "forceTLS", false), _defineProperty(_Echo, "cantidadPreImg", 0), _Echo));
+    window.Echo.channel('patient').listen('patientProcess', function (e) {
+      if (e.status) {
+        if (e.params.action === 'nueva_pre_imagen') {
+          localStorage.setItem('preImagen', true);
+        }
+
+        if (e.params.action === 'acceso') {
+          Swal.fire({
+            title: 'Hola!',
+            text: 'Tienes una nueva valoracion del paciente ' + e.params.nombrePaciente,
+            icon: 'info',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: '<i class="fa fa-thumbs-up"></i> Iniciar Valoración!'
+          }).then(function (result) {
+            if (result.isConfirmed) {
+              _this.$router.push({
+                name: 'tracingAssessment',
+                params: {
+                  id: e.params.idValoracion
+                }
+              });
+            } else if (result.isDenied) {}
+          });
+          _this.activeNotification = true;
+        }
+      }
+    });
   }
 });
 
@@ -6000,7 +5998,6 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
     listImageSelect: function listImageSelect() {
       var _this4 = this;
 
-      console.log(this.$route.params.params.id);
       this.axios.get("/assessments/process/all-image-select/".concat(this.$route.params.params.id)).then(function (res) {
         _this4.listImage = res.data.data;
       });
@@ -7370,7 +7367,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     response: function response(value) {
       if (value.data.status) {
-        this.$router.push('stepTwo');
+        this.$router.push({
+          name: 'stepTwo',
+          params: {
+            id_asessment: value.data.data.id
+          }
+        });
         localStorage.setItem('access-assessments', true);
         localStorage.setItem('cod', this.form.cod);
       } else {
@@ -7547,17 +7549,11 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
     };
   },
   created: function created() {
-    var _this = this;
-
-    axios.get('assessments/images/patients', {}).then(function (response) {
-      _this.images = response.data.data;
-    })["catch"](function (e) {
-      console.log(e);
-    });
+    this.getPatientsImage();
   },
   mounted: function mounted() {
     var _Echo,
-        _this2 = this;
+        _this = this;
 
     window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]((_Echo = {
       broadcaster: 'pusher',
@@ -7570,9 +7566,11 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
       if (e.status) {
         if (e.params.action = 'nueva_pre_imagen_patient') {
           if (e.params.evento == 'pre_patient') {
-            _this2.open = false;
-            _this2.imgPath = '';
-            _this2.selectImages = e.params.images_selected;
+            _this.open = false;
+            _this.imgPath = '';
+            _this.selectImages = e.params.images_selected;
+
+            _this.getPatientsImage();
           }
         }
       }
@@ -7607,8 +7605,16 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
       return this.listFinal;
     },
     continueProcess: function continueProcess() {
-      console.log(this.listFinal);
       this.$router.push('stepTree');
+    },
+    getPatientsImage: function getPatientsImage() {
+      var _this2 = this;
+
+      axios.get('assessments/images/patients/' + this.$route.params.id_asessment, {}).then(function (response) {
+        _this2.images = response.data.data;
+      })["catch"](function (e) {
+        console.log(e);
+      });
     }
   }
 });
@@ -7684,8 +7690,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   created: function created() {
-    console.log(this.isLoggedIn);
-
     if (this.isLoggedIn) {
       this.$store.dispatch("getUser");
     }
@@ -7761,7 +7765,7 @@ vue__WEBPACK_IMPORTED_MODULE_9__["default"].use(__webpack_require__(/*! vue-mome
  */
 
 (axios__WEBPACK_IMPORTED_MODULE_0___default().defaults.withCredentials) = true;
-(axios__WEBPACK_IMPORTED_MODULE_0___default().defaults.baseURL) = 'http://192.168.10.11:8000/api/';
+(axios__WEBPACK_IMPORTED_MODULE_0___default().defaults.baseURL) = 'http://localhost:8000/api/';
 var token = localStorage.getItem('token');
 
 if (token) {

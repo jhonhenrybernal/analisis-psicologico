@@ -61,13 +61,19 @@ class AssessmentsController extends Controller
             $channel = 'patient';
             $this->push($messagge,$status,$params,$channel);
 
-            return response()->json(['status'=>true, 'message' => '', 'data'=> $assessment], 200);
+            $result['id'] = $assessment->id;
+            return response()->json(['status'=>true, 'message' => '', 'data'=> $result], 200);
             
         }
     }
 
-    public function imagePatients(){
-        $imagesAssessment = ImagesAssessment::all();
+    public function imagePatients($idAsessment){
+        $statusSelectImage = Status::where('name','seleccion_imagenes')->value('id');
+        $processAssessment = ProcessAssessment::where('status_id',$statusSelectImage)->where('assessment_id',$idAsessment)->first();
+        $listImageSelect = ImagesQuestionAssessments::where('process_assessments_id',$processAssessment->id)->get()->toArray();
+        $collection = collect($listImageSelect);
+        $imagesSelecteds = $collection->pluck('image_id');
+        $imagesAssessment = ImagesAssessment::whereNotIn('id',$imagesSelecteds)->get();
         return response()->json(['status'=>true, 'message' => '', 'data'=> $imagesAssessment], 200);
     }
 

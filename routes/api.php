@@ -29,7 +29,7 @@ Route::post('/register', [App\Http\Controllers\Api\AuthController::class, 'regis
 Route::post('/login', [App\Http\Controllers\Api\AuthController::class, 'login']);
 
 Route::post('/assessments/access/patients', [App\Http\Controllers\AssessmentsController::class, 'access'])->name('assessments-access');
-Route::get('/assessments/images/patients', [App\Http\Controllers\AssessmentsController::class, 'imagePatients'])->name('assessments-images-patients');
+Route::get('/assessments/images/patients/{id}', [App\Http\Controllers\AssessmentsController::class, 'imagePatients'])->name('assessments-images-patients');
 Route::get('/assessments/images/pre-select/{id}/{action}', [App\Http\Controllers\AssessmentsController::class, 'imagePreSelect'])->name('assessments-images-select');    
 
 Route::group(['middleware'=>'jwt.verify'],function(){

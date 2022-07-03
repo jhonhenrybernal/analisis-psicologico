@@ -44,7 +44,6 @@ export default {
     },
   },
   created() {
-    console.log(this.isLoggedIn)
     if (this.isLoggedIn) {
       this.$store.dispatch("getUser");
     }

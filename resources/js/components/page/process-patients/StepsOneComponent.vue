@@ -65,7 +65,7 @@ export default {
     },
     response(value) {
       if (value.data.status) {
-        this.$router.push('stepTwo')
+        this.$router.push({name: 'stepTwo', params: { id_asessment: value.data.data.id }})
         localStorage.setItem('access-assessments', true)
         localStorage.setItem('cod', this.form.cod)
       } else {

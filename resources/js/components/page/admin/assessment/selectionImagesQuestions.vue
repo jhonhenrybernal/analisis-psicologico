@@ -141,7 +141,6 @@ export default {
             this.listImageSelect()
         },
         listImageSelect(){
-            console.log(this.$route.params.params.id)
                 this.axios
                 .get(`/assessments/process/all-image-select/${this.$route.params.params.id}`)
                 .then((res) => {

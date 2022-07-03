@@ -81,11 +81,7 @@ export default {
     };
   },
   created() {
-    axios.get('assessments/images/patients', {}).then(response => {
-        this.images = response.data.data
-    }).catch(e => {
-        console.log(e);
-    });
+    this.getPatientsImage()
   },
     mounted() {
       window.Echo = new Echo({
@@ -107,6 +103,7 @@ export default {
                     this.open = false
                     this.imgPath = ''
                     this.selectImages = e.params.images_selected
+                    this.getPatientsImage()
 
                 }
               }
@@ -144,8 +141,14 @@ export default {
         return this.listFinal 
     },
     continueProcess(){
-      console.log(this.listFinal)
       this.$router.push('stepTree') 
+    },
+    getPatientsImage(){
+       axios.get('assessments/images/patients/'+ this.$route.params.id_asessment, {}).then(response => {
+        this.images = response.data.data
+      }).catch(e => {
+          console.log(e);
+      });
     }
   }
 };
