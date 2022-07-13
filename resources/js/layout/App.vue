@@ -15,11 +15,9 @@
         <!------------fin de header para todos---------------->
         <admin-menu-component v-if="isLoggedIn"></admin-menu-component>
         <main :class="{ 'col-md-9 ms-sm-auto col-lg-10 px-md-4': isLoggedIn }">
-          <div class="mt-5 pt-3">
-            <transition name="view">
-                <router-view/>
-            </transition>
-          </div>
+        <transition name="view">
+            <router-view/>
+        </transition>
         </main>
       </div>
     </div>

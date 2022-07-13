@@ -46,8 +46,8 @@
             }
         },
         created() {
-            this.$store.dispatch("getStatus").then(
-                respo=> {
+            this.$store.dispatch("getRequest","status").then(
+                respo => {
                     this.status = respo.data
                 }).catch(err => this.error(err));
         },

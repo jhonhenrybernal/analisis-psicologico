@@ -28,9 +28,9 @@ use App\http\Controllers\ProcessAssessmentController;
 Route::post('/register', [App\Http\Controllers\Api\AuthController::class, 'register']); 
 Route::post('/login', [App\Http\Controllers\Api\AuthController::class, 'login']);
 
-Route::post('/assessments/access/patients', [App\Http\Controllers\AssessmentsController::class, 'access'])->name('assessments-access');
-Route::get('/assessments/images/patients/{id}', [App\Http\Controllers\AssessmentsController::class, 'imagePatients'])->name('assessments-images-patients');
-Route::get('/assessments/images/pre-select/{id}/{action}', [App\Http\Controllers\AssessmentsController::class, 'imagePreSelect'])->name('assessments-images-select');    
+Route::post('/assessments/access/patients', [App\Http\Controllers\AssessmentsPatientController::class, 'access'])->name('assessments-access');
+Route::get('/assessments/images/patients/{id}', [App\Http\Controllers\AssessmentsPatientController::class, 'imagePatients'])->name('assessments-images-patients');
+Route::get('/assessments/images/pre-select/{id}/{action}', [App\Http\Controllers\AssessmentsPatientController::class, 'imagePreSelect'])->name('assessments-images-select');    
 
 Route::group(['middleware'=>'jwt.verify'],function(){
    // Route::get('user','AuthController@getUser');
@@ -41,6 +41,7 @@ Route::group(['middleware'=>'jwt.verify'],function(){
     Route::resource('questions',QuestionsController::class);
     Route::get('/assessments/process/{id}', [App\Http\Controllers\ProcessAssessmentController::class, 'findAll']); 
     Route::post('/assessments/process/add-pre-image', [App\Http\Controllers\ProcessAssessmentController::class, 'addPreSelect']); 
-    Route::get('/assessments/process/all-image-select/{id}', [App\Http\Controllers\ProcessAssessmentController::class, 'allImageSelect']);  
+    Route::get('/assessments/process/all-image-select/{id}', [App\Http\Controllers\ProcessAssessmentController::class, 'allImageSelect']); 
+    Route::get('/assessments/process/therapy/{type}/{id}', [App\Http\Controllers\ProcessAssessmentController::class, 'therapy']);  
     //Route::resource('todos','TodoController');
 });

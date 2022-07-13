@@ -48,7 +48,7 @@ export default {
         }
     },
     created() {
-        this.$store.dispatch("getAssessments").then(
+          this.$store.dispatch("getRequest","assessments").then(
             respo => {
                 this.assessment = respo.data.data
             }).catch(err => this.error(err));

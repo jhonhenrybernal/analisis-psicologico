@@ -19,9 +19,14 @@
                 <div class="row-images"> 
                     <div v-for="img in listImage" :key="img.id" class="column-images" >
                         <img v-bind:src="'../'+img.image_assessment.path"  alt="Cinque Terre" width="600" height="400">
-                        <div class="desc-questions-select">Add a description of the image here</div>  
                     </div>
                 </div>
+            </div>
+             <div style="text-align:center">
+             <h4>Selección de terapias</h4>
+                <button type="button" class="btn btn-success" @click="tipoTerapia('video')">Video</button>
+                <button type="button" class="btn btn-success" @click="tipoTerapia('sucesos')">Imagenes sucesos</button>
+                <button type="button" class="btn btn-success" @click="tipoTerapia('naturales')">Imagenes desastres naturales </button>
             </div>
            <!--  <div class="">
                    <div class="gallery-questions-select">
@@ -109,10 +114,11 @@ export default {
     },
 
     created() {
-        this.$store.dispatch("getAssessments").then(
+        this.$store.dispatch("getRequest","assessments").then(
             respo => {
                 this.assessment = respo.data.data
             }).catch(err => this.error(err));
+
             localStorage.removeItem('preImagen');
             if (localStorage.getItem('pathImagen') !== null) {
                 this.imagenPreseleccionada = true
@@ -148,9 +154,14 @@ export default {
                     this.listImage = res.data.data;
                    
                 });
+        },
+        tipoTerapia(tipo){
+             this.axios
+               .get(`/assessments/process/therapy/${tipo}/${this.$route.params.params.id}`)
+                .then((res) => {
+                    this.listImage = res.data.data;
+                });
         }
-
     }
-
 }
 </script>

@@ -1,6 +1,7 @@
 <template>
    <div>
-      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+      <div class="mt-5 pt-3">
+         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
       <div class="container">
        <div class="progress" v-if="assessmentProcess.length > 0">
            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" v-bind:style="{width: assessmentProcess.length *10+'%'}" v-bind:aria-valuenow="assessmentProcess.length" aria-valuemin="0" aria-valuemax="100"></div>
@@ -185,70 +186,68 @@
             </li>-->
          </ul>
       </div>
+      </div>
+      
    </div>
 </template>
 <script>
-import Echo from 'laravel-echo'
-window.Pusher = require('pusher-js')
+import Echo from "laravel-echo";
+window.Pusher = require("pusher-js");
 export default {
-   data() {
-      return {
-         assessmentProcess: [],
-         countAssessmentProcess: '',
-         cantidadPreImg:0,
-         procesoPreImagenes:false,
+  data() {
+    return {
+      assessmentProcess: [],
+      countAssessmentProcess: "",
+      cantidadPreImg: 0,
+      procesoPreImagenes: false,
+    };
+  },
+  mounted() {
+    window.Echo = new Echo({
+      broadcaster: "pusher",
+      key: "ASDASD2121",
+      wsHost: window.location.hostname,
+      wsPort: 6001,
+      disableStats: true,
+      disableStats: true,
+      forceTLS: false,
+      cantidadPreImg: 0,
+    });
+    window.Echo.channel("patient").listen("patientProcess", (e) => {
+      this.getProcessAssessment();
+      localStorage.removeItem("pathImagen");
+      if (e.status) {
+        if ((e.params.action = "nueva_pre_imagen")) {
+          if (e.params.evento === "pre") {
+            this.procesoPreImagenes = true;
+            localStorage.setItem("pathImagen", e.params.imagen);
+          }
+          if (e.params.evento === "close") {
+            this.procesoPreImagenes = false;
+            localStorage.removeItem("pathImagen");
+          }
+          this.cantidadPreImg = e.params.imagenCantidad;
+        }
       }
-   },
-    mounted() {
-        window.Echo = new Echo({
-            broadcaster: 'pusher',
-            key: 'ASDASD2121',
-            wsHost: window.location.hostname,
-            wsPort: 6001,
-            disableStats: true,
-            disableStats: true,
-            forceTLS: false,
-            cantidadPreImg :0
-        })
-         window.Echo.channel('patient').listen('patientProcess', (e) => {
-            this.getProcessAssessment()
-            localStorage.removeItem('pathImagen');
-            if (e.status) {
-               if (e.params.action = 'nueva_pre_imagen') {
-                  if (e.params.evento === 'pre') {
-                     this.procesoPreImagenes = true   
-                     localStorage.setItem('pathImagen',e.params.imagen);
-                  }
-                  if (e.params.evento === 'close') {
-                     this.procesoPreImagenes = false   
-                     localStorage.removeItem('pathImagen');
-                  }
-                  this.cantidadPreImg = e.params.imagenCantidad
-                  
-               }
-            }
-
-        })
+    });
+  },
+  created() {
+    this.getProcessAssessment();
+  },
+  methods: {
+    selectImageQuestion(params) {
+      this.$router.push({ name: "selectImageQuestion", params: { params } });
     },
-   created() {
-     this.getProcessAssessment()
-    },
-   methods: {
-      selectImageQuestion(params){
-         this.$router.push({ name: 'selectImageQuestion', params: {params } })   
-      },
-      getProcessAssessment(){
-          axios.get(`/assessments/process/${this.$route.params.id}`)
-         .then((res) => {
-               this.assessmentProcess = res.data.data;
-         });
+    getProcessAssessment() {
+      axios.get(`/assessments/process/${this.$route.params.id}`).then((res) => {
+        this.assessmentProcess = res.data.data;
+      });
 
-         const storangpPreImagen = localStorage.getItem('preImagen', true)
-         if(storangpPreImagen){
-            this.procesoPreImagenes = true
-         }
+      const storangpPreImagen = localStorage.getItem("preImagen", true);
+      if (storangpPreImagen) {
+        this.procesoPreImagenes = true;
       }
-
-   }
-}
+    },
+  },
+};
 </script>

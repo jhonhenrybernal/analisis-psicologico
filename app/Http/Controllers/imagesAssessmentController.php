@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class ImagesAssessmentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
         $imagesAssessment = ImagesAssessment::with('user')->get();

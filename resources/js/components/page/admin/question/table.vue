@@ -50,11 +50,10 @@ export default {
     },
 
     created() {
-        axios.get('questions').then(response => {
-            this.questions = response.data.data
-        }).catch(e => {
-            console.log(e);
-        });
+        this.$store.dispatch("getRequest","questions").then(
+        respo => {
+            this.questions = respo.data.data
+        }).catch(err => this.error(err));
     },
 
 }

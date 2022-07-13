@@ -45,7 +45,7 @@ export default {
     },
 
     created() {
-        this.$store.dispatch("getImages").then(
+        this.$store.dispatch("getRequest","imagesAssessment").then(
             respo => {
                 this.image = respo.data.data
             }).catch(err => this.error(err));

@@ -9,6 +9,11 @@ use App\Models\ImagesQuestionAssessments;
 
 class ProcessAssessmentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -40,7 +45,7 @@ class ProcessAssessmentController extends Controller
         }
 
         $paramsEvent = [
-            'action' => 'nueva_pre_imagen_patient',
+            'accion' => 'nueva_pre_imagen_patient',
             'evento' => 'pre_patient'
         ];
         $messagge = "Seleccion de imagen";
@@ -63,5 +68,18 @@ class ProcessAssessmentController extends Controller
 
     public function push($messagge,$status,$params,$channel){
         event(new \App\Events\patientProcess($messagge,$status,$params,$channel));
+    }
+
+    public function therapy($type,$id)
+    {
+        $paramsEvent = [
+            'accion' => 'therapy_to_clien',
+            'evento' => $type
+        ];
+        $messagge = "Inicio de terapia";
+        $status = true;
+        $params = $paramsEvent;
+        $channel = 'patient';
+        $this->push($messagge,$status,$params,$channel); 
     }
 }

@@ -40,23 +40,8 @@ export default new Vuex.Store({
       state.token = ''
       state.isLoggedIn = false;
     },
-
-    set_patient(values,patient){
+    set_request(values,patient){
       values.data = patient
-    },
-
-    set_status(values,status){
-      values.data = status
-    },
-
-    set_patient(values,status){
-      values.data = status
-    },
-    set_assessments(values,status){
-      values.data = status
-    },
-    set_images(values,status){
-      values.data = status
     }
   },
   actions: {
@@ -103,11 +88,11 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         commit('logout')
         localStorage.removeItem('token')
+        localStorage.removeItem('pusherTransportNonTLS')
         delete axios.defaults.headers.common['Authorization']
         resolve()
       })
     },
-
     getUser({commit}){
       return new Promise((resolve, reject) => {
         axios({url:'user',method:'GET'}).then(res =>{
@@ -116,18 +101,10 @@ export default new Vuex.Store({
         })
       }); 
     },
-    getPatients({commit}){
+    getRequest({commit},request){
       return new Promise((resolve, reject) => {
-        axios({url:'patients',method:'GET'}).then(res =>{
-          commit('set_patient',res.data)
-          resolve(res)
-        })
-      }); 
-    },
-    getStatus({commit}){
-      return new Promise((resolve, reject) => {
-        axios({url:'status',method:'GET'}).then(res =>{
-          commit('set_status',res.data)
+        axios({url:request,method:'GET'}).then(res =>{
+          commit('set_request',res.data)
           resolve(res)
         })
       }); 
@@ -143,31 +120,12 @@ export default new Vuex.Store({
           reject(err)
         })
       })
-    },
-    getAssessments({commit},data){
-      return new Promise((resolve, reject) => {
-        axios({url:'assessments',method:'GET'}).then(res =>{
-          commit('set_assessments',res.data)
-          resolve(res)
-        })
-      }); 
-    },
-    getImages({commit}){
-      return new Promise((resolve, reject) => {
-        axios({url:'imagesAssessment',method:'GET'}).then(res =>{
-          commit('set_images',res.data)
-          resolve(res)
-        })
-      }); 
     }
   },
   getters : {
     getImages: values => values.data,
-    getAssessments: values => values.data,
-    getStatus: values => values.data,
     getProcessPatient: values => values.data,
     isLoggedIn: state => !!state.token,
-    authStatus: state => state.status,
     getUser: state=> state.user,
     getError: state=> state.error
   }

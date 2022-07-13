@@ -53,7 +53,7 @@ export default {
         }
     },
     created() {
-        this.$store.dispatch("getPatients").then(
+         this.$store.dispatch("getRequest","patients").then(
             respo => {
                 this.patients = respo.data.data
             }).catch(err => this.error(err));
