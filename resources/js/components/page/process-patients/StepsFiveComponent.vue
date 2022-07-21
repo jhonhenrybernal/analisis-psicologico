@@ -1,64 +1,62 @@
 <template>
-  <div> 
-    <div class="lightbox-gallery">
-        <div class="container">
-            <div class="intro">
-                <h2 class="text-center">Bienvenido!</h2>
-                <p class="text-center">{{firstname }} {{lastname}} seleccione tus imagenes</p>
-            </div>
-            <div class="row photos">
-              <span>paso cinco</span> 
-            </div>
-            <div class="row mb-3">
-              <button type="submit" class="btn btn-primary" v-on:click="continueProcess()">Continuar</button>                           
-            </div>
+  <div>
+    <div v-if="open" class="modal-images">
+      <div class="mt-2">
+        <div class="slide-item">
+          <img src="http://localhost:8000/images/espiritual/prueba.jpg" align="center">
         </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
 export default {
-  
+
   data() {
-     
+
     return {
-      firstname: localStorage.getItem('firstname'),
-      lastname: localStorage.getItem('lastname'),
-      isActiveSelect:false,
-      listSelect:[] ,
-      listFinal:[],
-      show: true,
-      value: "",
+      images: [],
+      open: false,
     };
   },
+  created() {
+    this.getPatientsImage();
+  },
   methods: {
-    clickSelect:function (Selected) {
-     if (event.target.classList.contains('activeSelect')) {
-        event.target.classList.remove("activeSelect");
-        this.builderSelection('false',Selected)
-        return
-      }
-      event.target.className += "activeSelect";
-      this.builderSelection('true',Selected)
+    getPatientsImage() {
 
-    
-    },
-    builderSelection(status,selected){
-      
-        this.listSelect.push({
-          id: '1111',
-          title: selected
+      this.open = true
+      axios
+        .get(
+          "assessments/images/patients/" + this.$route.params.id_asessment,
+          {}
+        )
+        .then((response) => {
+          this.images = response.data.data;
         })
-
-        const extractValues = ({id, title}) => [id, title];
-        this.listFinal = this.listSelect.map(extractValues)  
-        return this.listFinal 
+        .catch((e) => {
+          console.log(e);
+        });
     },
-    continueProcess(){
-      console.log(this.listFinal)
-      //this.$router.push('stepTree') 
-    }
-    
+    close(id) {
+      this.open = false;
+    },
   },
 };
 </script>
+<style>
+.slide-item{
+  width: 100%; 
+  height: 100%; 
+  position: fixed; 
+  left: 0px; 
+  top: 0px; 
+  z-index: -1;
+  background-size: cover;
+}
+
+.slide-item img{
+    height: 99%;
+    
+}
+</style>

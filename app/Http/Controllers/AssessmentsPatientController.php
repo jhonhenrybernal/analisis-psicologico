@@ -75,13 +75,26 @@ class AssessmentsPatientController extends Controller
     public function imagePreSelect($id,$action){
         $imagesAssessment = ImagesAssessment::find($id);
         $paramsEvent = [
-            'action' => 'nueva_pre_imagen',
             'accion' => 'nueva_pre_imagen',
             'evento' => $action,
             'imagenCantidad' => 1,
             'imagen' => $imagesAssessment->path
         ];
         $messagge = "Iniciado seleccion pre imagenes";
+        $status = true;
+        $params = $paramsEvent;
+        $channel = 'patient';
+        $this->push($messagge,$status,$params,$channel); 
+        return response()->json(['status'=>true, 'message' => '', 'data'=> $imagesAssessment], 200);
+    }
+
+    public function videoPlay($action,$id){
+        $imagesAssessment = ImagesAssessment::find($id);
+        $paramsEvent = [
+            'accion' => 'proceso_video',
+            'evento' => $action.'_video',
+        ];
+        $messagge = "Iniciado video";
         $status = true;
         $params = $paramsEvent;
         $channel = 'patient';

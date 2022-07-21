@@ -77,7 +77,8 @@ export default {
             imagenPreseleccionada:false,
             imagenNoPreseleccionada:true,
             process_assessments_id:0,
-            listImage:[]
+            listImage:[],
+            routeName:''
         }
     },
     mounted() {
@@ -160,6 +161,25 @@ export default {
                .get(`/assessments/process/therapy/${tipo}/${this.$route.params.params.id}`)
                 .then((res) => {
                     this.listImage = res.data.data;
+                });
+            
+                if(tipo == 'video'){
+                    this.routeName = "videoTherapies"
+                }
+
+                if(tipo == 'sucesos'){
+                    this.routeName = "imagesEvents"
+                }
+
+                if(tipo == 'naturales'){
+                    this.routeName = "naturalDisasterImages"
+                }
+
+                this.$router.push({
+                    name: this.routeName,
+                    params: {
+                        id_asessment: this.$route.params.id_asessment,
+                    },
                 });
         }
     }

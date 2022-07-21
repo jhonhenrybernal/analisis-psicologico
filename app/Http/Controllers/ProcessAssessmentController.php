@@ -66,10 +66,6 @@ class ProcessAssessmentController extends Controller
         return response()->json(['status'=>'ok', 'message' => '', 'data'=> $imageQuestionAssessment], 200); 
     }
 
-    public function push($messagge,$status,$params,$channel){
-        event(new \App\Events\patientProcess($messagge,$status,$params,$channel));
-    }
-
     public function therapy($type,$id)
     {
         $paramsEvent = [
@@ -81,5 +77,23 @@ class ProcessAssessmentController extends Controller
         $params = $paramsEvent;
         $channel = 'patient';
         $this->push($messagge,$status,$params,$channel); 
+    }
+
+    public function videoPlay($action,$id){
+        $imagesAssessment = ImagesAssessment::find($id);
+        $paramsEvent = [
+            'accion' => 'proceso_video_de_paciente',
+            'evento' => $action.'_video',
+        ];
+        $messagge = "Iniciado video desde el paciente";
+        $status = true;
+        $params = $paramsEvent;
+        $channel = 'patient';
+        $this->push($messagge,$status,$params,$channel); 
+        return response()->json(['status'=>true, 'message' => '', 'data'=> $imagesAssessment], 200);
+    }
+
+    public function push($messagge,$status,$params,$channel){
+        event(new \App\Events\patientProcess($messagge,$status,$params,$channel));
     }
 }

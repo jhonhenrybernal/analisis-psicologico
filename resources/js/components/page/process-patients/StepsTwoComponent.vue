@@ -101,6 +101,7 @@ export default {
       forceTLS: false,
       cantidadPreImg: 0,
       selectImages: [],
+      routeName: ''
     });
     window.Echo.channel("patient").listen("patientProcess", (e) => {
        if (e.status) {
@@ -114,15 +115,26 @@ export default {
         }
 
        if ((e.params.accion = "therapy_to_clien")) {
-        if(e.params.evento == 'video'){
-          this.$router.push({
-              name: "stepTree",
-              params: {
-                tipo: e.params.evento,
-                id_asessment: this.$route.params.id_asessment,
-              },
-            });
+
+          if(e.params.evento == 'video'){
+            this.routeName = "stepTree"
           }
+
+          if(e.params.evento == 'sucesos'){
+            this.routeName = "stepFourt"
+          }
+
+          if(e.params.evento == 'naturales'){
+            this.routeName = "stepFive"
+          }
+
+          this.$router.push({
+            name: this.routeName,
+            params: {
+              tipo: e.params.evento,
+              id_asessment: this.$route.params.id_asessment,
+            },
+          });
         }       
       }
     });

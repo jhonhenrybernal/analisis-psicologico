@@ -30,6 +30,9 @@ import questionTable from './components/page/admin/question/table.vue'
 import questionEdit from './components/page/admin/question/edit.vue'
 import questionCreate from './components/page/admin/question/create.vue'
 import selectImageQuestion from './components/page/admin/assessment/selectionImagesQuestions'
+import imagesEvent from './components/page/admin/assessment/selectionTherapies/imagesEvents'
+import naturalDisasterImage from './components/page/admin/assessment/selectionTherapies/naturalDisasterImages'
+import videoTherapies from './components/page/admin/assessment/selectionTherapies/video'
 import AdminComponent from './components/page/admin/adminComponent.vue'
 /**
  * @author Jhon Bernal
@@ -101,7 +104,16 @@ const router = new Router({
     {
 			path:'/image-select-question',name:'selectImageQuestion',component:selectImageQuestion, beforeEnter: guard
 		},
-    {
+	{
+			path:'/images-event',name:'imagesEvent',component:imagesEvent, beforeEnter: guard
+		},
+	{
+			path:'/natural-disaster-image',name:'naturalDisasterImage',component:naturalDisasterImage, beforeEnter: guard
+		},
+	{
+			path:'/video-therapies',name:'videoTherapies',component:videoTherapies, beforeEnter: guard
+		},
+	{
 			path:'/',name:'home',component:StepOne
 		},
     {
@@ -111,7 +123,7 @@ const router = new Router({
 			path:'/stepTree',name:'stepTree',component:StepTree
 		},
     {
-			path:'/stepFourt',name:'stepFour',component:StepFourt
+			path:'/stepFourt',name:'stepFourt',component:StepFourt
 		},
     {
 			path:'/stepFive',name:'stepFive',component:StepFive

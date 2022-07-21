@@ -37,6 +37,7 @@
     <div class="mt-6 pt-3">
       <div class="row photos video-fullscreen">
         <video
+          @canplay="updatePaused" @playing="updatePaused" @pause="updatePaused"
           ref="therapyVideo"
           src=""
           id="video-container"
@@ -49,21 +50,52 @@
   </div>
 </template>
 <script>
+import Echo from "laravel-echo";
+window.Pusher = require("pusher-js");
 export default {
   data() {
     return {
       viewFullscreen: false.valueOf,
       showModal: false,
+      videoElement: null,
     };
   },
-  mounted() {
+   mounted() {
     this.showModal = true;
     this.$refs.therapyVideo.src =
       location.protocol +
       "//" +
       location.host +
       "/video-paciente/sietevideos.mp4";
+
+    window.Echo = new Echo({
+      broadcaster: "pusher",
+      key: "ASDASD2121",
+      wsHost: window.location.hostname,
+      wsPort: 6001,
+      disableStats: true,
+      disableStats: true,
+      forceTLS: false,
+      cantidadPreImg: 0,
+      selectImages: [],
+      routeName: '',
+      actionEvent:''
+    });
+    window.Echo.channel("patient").listen("patientProcess", (e) => {
+       if (e.status) {
+        if ((e.params.accion = "proceso_video_de_paciente")) {
+          if (e.params.evento == "play_video") {
+           this.$refs.therapyVideo.play();
+          }
+
+          if (e.params.evento == "pause_video") {
+           this.$refs.therapyVideo.pause();
+          }
+        }     
+      }
+    });
   },
+    
   methods: {
     fullscreen() {
       this.viewFullscreen = true;
@@ -76,8 +108,32 @@ export default {
       } else if (this.$refs.therapyVideo.msRequestFullscreen) {
         this.$refs.therapyVideo.msRequestFullscreen();
       }
-
-      this.$refs.therapyVideo.play();
+      axios
+        .get(
+          "/assessments/video/play/play/" + this.$route.params.id_asessment,
+          {}
+        )
+        .then((response) => {
+          this.$refs.therapyVideo.play();
+        })
+        .catch((e) => {
+        });
+      
+    },
+    updatePaused(event) {
+      this.paused = event.target.paused;
+      this.actionEvent = 'play'
+      if (this.paused) {
+        this.actionEvent = 'pause'
+      }
+       axios.get(
+          "/assessments/video/play/"+ this.actionEvent + "/" + this.$route.params.id_asessment,
+          {}
+        )
+        .then((response) => {
+        })
+        .catch((e) => {
+        });
     },
   },
 };
