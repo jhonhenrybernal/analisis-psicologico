@@ -21,7 +21,6 @@ class ImagesAssessmentController extends Controller
 
     public function store(Request $request){
        
-        
          $Authuser = Auth::user();
        
         if($request->file('files')) {
@@ -34,7 +33,7 @@ class ImagesAssessmentController extends Controller
                 $fileUpload->name = $imagefile->getClientOriginalName();
                 $path = $imagefile->store('/images/espiritual', ['disk' =>   'espiritual_files']);
                 $fileUpload->path =  $path;
-                $fileUpload->type_image = 'patient';
+                $fileUpload->type_image = $request['type_image'];
                 $fileUpload->user_id =  $Authuser->id;
                 $fileUpload->save();
               }

@@ -157,7 +157,7 @@ export default {
                 });
         },
         tipoTerapia(tipo){
-             this.axios
+                this.axios
                .get(`/assessments/process/therapy/${tipo}/${this.$route.params.params.id}`)
                 .then((res) => {
                     this.listImage = res.data.data;
@@ -168,17 +168,16 @@ export default {
                 }
 
                 if(tipo == 'sucesos'){
-                    this.routeName = "imagesEvents"
+                    this.routeName = "imagesEvent"
                 }
 
                 if(tipo == 'naturales'){
                     this.routeName = "naturalDisasterImages"
                 }
-
                 this.$router.push({
                     name: this.routeName,
                     params: {
-                        id_asessment: this.$route.params.id_asessment,
+                        id_asessment: this.$route.params.params.id,
                     },
                 });
         }

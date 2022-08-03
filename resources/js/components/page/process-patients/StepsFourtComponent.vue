@@ -3,13 +3,15 @@
     <div v-if="open" class="modal-images">
       <div class="mt-2">
         <div class="slide-item">
-          <img src="http://localhost:8000/images/espiritual/iVweT4b2s2INOApCNzzm4v9X1AyDk70fTplGiR0x.jpg" align="center">
+          <img v-bind:src="'../'+ path" align="center">
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import Echo from "laravel-echo";
+window.Pusher = require("pusher-js");
 export default {
 
   data() {
@@ -17,31 +19,48 @@ export default {
     return {
       images: [],
       open: false,
+      path:''
     };
   },
-  created() {
-    this.getPatientsImage();
-  },
-  methods: {
-    getPatientsImage() {
+  
+   mounted() {
 
-      this.open = true
-      axios
-        .get(
-          "assessments/images/patients/" + this.$route.params.id_asessment,
-          {}
-        )
-        .then((response) => {
-          this.images = response.data.data;
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
-    close(id) {
-      this.open = false;
-    },
-  },
+    window.Echo = new Echo({
+      broadcaster: "pusher",
+      key: "ASDASD2121",
+      wsHost: window.location.hostname,
+      wsPort: 6001,
+      disableStats: true,
+      disableStats: true,
+      forceTLS: false,
+      cantidadPreImg: 0,
+      selectImages: [],
+      routeName: '',
+      actionEvent:''
+    });
+    window.Echo.channel("patient").listen("patientProcess", (e) => {
+       if (e.status) {
+        if ((e.params.accion = "imagen_select_question")) {
+          if (e.params.evento == "imagen_seleccionado") {
+             this.open = true
+              this.path = e.params.path
+              if (this.path == 'fin') {
+                this.$router.push({
+                  name: 'stepFive',
+                  params: {
+                    tipo: this.$route.params.evento,
+                    id_asessment: this.$route.params.id_asessment,
+                  },
+                 });
+              }
+          }
+          if (e.params.evento == "pause_video") {
+           this.$refs.therapyVideo.pause();
+          }
+        }     
+      }
+    });
+  }
 };
 </script>
 <style>

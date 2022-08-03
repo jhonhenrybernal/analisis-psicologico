@@ -6024,7 +6024,7 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
       }
 
       if (tipo == 'sucesos') {
-        this.routeName = "imagesEvents";
+        this.routeName = "imagesEvent";
       }
 
       if (tipo == 'naturales') {
@@ -6034,7 +6034,7 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
       this.$router.push({
         name: this.routeName,
         params: {
-          id_asessment: this.$route.params.id_asessment
+          id_asessment: this.$route.params.params.id
         }
       });
     }
@@ -6060,20 +6060,150 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
-    return {};
+    return {
+      listImage: [],
+      listQuestion: [],
+      imgSelect: '',
+      initQuestions: false,
+      idImage: 0,
+      finQuestion: false,
+      initListQuestions: false,
+      isImagePatient: false,
+      questionImages: true
+    };
   },
   created: function created() {
-    var _this = this;
-
-    this.$store.dispatch("getRequest", "assessments").then(function (respo) {
-      _this.assessment = respo.data.data;
-    })["catch"](function (err) {
-      return _this.error(err);
-    });
+    this.init();
   },
-  methods: {}
+  methods: {
+    inicioPregunta: function inicioPregunta() {
+      this.isImagePatient = true;
+      this.findImage(this.listImage);
+      this.initQuestions = true;
+      this.initListQuestions = true;
+    },
+    selectQuestion: function selectQuestion(id) {
+      var _this = this;
+
+      axios.post("/assessments/process/questions/image/find", {
+        id_asessment: this.$route.params.id_asessment,
+        id_image: this.idImage,
+        question_id: id
+      }).then(function (response) {
+        _this.init();
+
+        _this.isImagePatient = true;
+      })["catch"](function (e) {});
+    },
+    init: function init() {
+      var _this2 = this;
+
+      axios.get("/assessments/process/image/selected/" + this.$route.params.id_asessment, {}).then(function (response) {
+        if (response.data.status == 'error') {
+          if (response.data.message == 'fin') {
+            _this2.questionImages = false;
+
+            _this2.sendImagePatient('fin');
+
+            return;
+          }
+        }
+
+        _this2.listImage = response.data.data;
+
+        _this2.findImage(_this2.listImage);
+      })["catch"](function (e) {
+        console.log(e);
+      });
+      axios.get("/assessments/process/questions/selected/" + this.$route.params.id_asessment, {}).then(function (response) {
+        _this2.listQuestion = response.data.data;
+      })["catch"](function (e) {});
+    },
+    findImage: function findImage(list) {
+      var images = list.find(function (ele) {
+        return ele.question_assessments == null;
+      });
+
+      if (images == undefined) {
+        this.imgSelect = '';
+        this.idImage = '';
+        this.finQuestion = true;
+        this.initListQuestions = false;
+        this.sendImagePatient('fin');
+        return;
+      }
+
+      this.imgSelect = images.image_assessment.path;
+      this.idImage = images.image_id;
+
+      if (this.isImagePatient) {
+        this.sendImagePatient(this.imgSelect);
+      }
+    },
+    sendImagePatient: function sendImagePatient(img) {
+      axios.post("/assessments/process/questions/send/image", {
+        id_asessment: this.$route.params.id_asessment,
+        id_image: this.idImage,
+        pathImg: img
+      }).then(function (response) {})["catch"](function (e) {});
+    }
+  }
 });
 
 /***/ }),
@@ -6657,6 +6787,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -6710,12 +6842,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       name: '',
       file: [],
-      success: ''
+      success: '',
+      type_image: ''
     };
   },
   methods: {
@@ -6734,6 +6881,12 @@ __webpack_require__.r(__webpack_exports__);
         formData.append('files[' + i + ']', file);
       }
 
+      if (this.type_image == '') {
+        alert('seleccione un tipo de imagen');
+        return;
+      }
+
+      formData.append('type_image', this.type_image);
       axios.post('/imagesAssessment', formData, config).then(function (res) {
         existingObj.success = res.data.success;
       })["catch"](function (err) {
@@ -7429,6 +7582,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -7440,30 +7596,51 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
+window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       images: [],
-      open: false
+      open: false,
+      path: ''
     };
   },
-  created: function created() {
-    this.getPatientsImage();
-  },
-  methods: {
-    getPatientsImage: function getPatientsImage() {
-      var _this = this;
+  mounted: function mounted() {
+    var _Echo,
+        _this = this;
 
-      this.open = true;
-      axios.get("assessments/images/patients/" + this.$route.params.id_asessment, {}).then(function (response) {
-        _this.images = response.data.data;
-      })["catch"](function (e) {
-        console.log(e);
-      });
-    },
-    close: function close(id) {
-      this.open = false;
-    }
+    window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]((_Echo = {
+      broadcaster: "pusher",
+      key: "ASDASD2121",
+      wsHost: window.location.hostname,
+      wsPort: 6001,
+      disableStats: true
+    }, _defineProperty(_Echo, "disableStats", true), _defineProperty(_Echo, "forceTLS", false), _defineProperty(_Echo, "cantidadPreImg", 0), _defineProperty(_Echo, "selectImages", []), _defineProperty(_Echo, "routeName", ''), _defineProperty(_Echo, "actionEvent", ''), _Echo));
+    window.Echo.channel("patient").listen("patientProcess", function (e) {
+      if (e.status) {
+        if (e.params.accion = "imagen_select_question") {
+          if (e.params.evento == "imagen_seleccionado") {
+            _this.open = true;
+            _this.path = e.params.path;
+
+            if (_this.path == 'fin') {
+              _this.$router.push({
+                name: 'stepFive',
+                params: {
+                  tipo: _this.$route.params.evento,
+                  id_asessment: _this.$route.params.id_asessment
+                }
+              });
+            }
+          }
+
+          if (e.params.evento == "pause_video") {
+            _this.$refs.therapyVideo.pause();
+          }
+        }
+      }
+    });
   }
 });
 
@@ -8080,7 +8257,7 @@ vue__WEBPACK_IMPORTED_MODULE_9__["default"].use(__webpack_require__(/*! vue-mome
  */
 
 (axios__WEBPACK_IMPORTED_MODULE_0___default().defaults.withCredentials) = true;
-(axios__WEBPACK_IMPORTED_MODULE_0___default().defaults.baseURL) = 'http://192.168.10.11:8000/api/';
+(axios__WEBPACK_IMPORTED_MODULE_0___default().defaults.baseURL) = 'http://192.168.10.18:8000/api/';
 var token = localStorage.getItem('token');
 
 if (token) {
@@ -67115,7 +67292,146 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("div", [
+    _vm.questionImages
+      ? _c("div", { staticClass: "container-select-event" }, [
+          _c("div", { staticClass: "dinamic-select-event" }, [
+            !_vm.initQuestions
+              ? _c("div", { staticClass: "container-button-select-event" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function ($event) {
+                          return _vm.inicioPregunta()
+                        },
+                      },
+                    },
+                    [
+                      _vm._v(
+                        "\n                    Iniciar Preguntas\n                "
+                      ),
+                    ]
+                  ),
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.initQuestions
+              ? _c("div", { staticClass: "container" }, [
+                  !_vm.finQuestion
+                    ? _c("img", {
+                        staticClass: "image-selected-event",
+                        attrs: {
+                          src: "../" + this.imgSelect,
+                          alt: "Cinque Terre",
+                          width: "46",
+                          height: "80",
+                        },
+                      })
+                    : _vm._e(),
+                ])
+              : _vm._e(),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "Content-select-event" }, [
+            _vm.finQuestion
+              ? _c("div", { staticClass: "container" }, [
+                  _c("h2", [_vm._v("Fin")]),
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.initListQuestions
+              ? _c(
+                  "div",
+                  { staticClass: "container" },
+                  [
+                    _c("h2", [_vm._v("Lista de preguntas")]),
+                    _vm._v(" "),
+                    _vm._l(_vm.listQuestion, function (list) {
+                      return _c(
+                        "ul",
+                        { key: list.id, staticClass: "list-group" },
+                        [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "form-control",
+                              on: {
+                                click: function ($event) {
+                                  return _vm.selectQuestion(list.id)
+                                },
+                              },
+                            },
+                            [
+                              _c("li", { staticClass: "list-group-item" }, [
+                                _vm._v(_vm._s(list.question)),
+                              ]),
+                            ]
+                          ),
+                        ]
+                      )
+                    }),
+                  ],
+                  2
+                )
+              : _vm._e(),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "Sidebar-select-event" }, [
+            _c(
+              "div",
+              { staticClass: "row-images" },
+              _vm._l(_vm.listImage, function (img) {
+                return _c(
+                  "div",
+                  {
+                    key: img.id,
+                    staticClass: "column-images image-select-event",
+                  },
+                  [
+                    _c(
+                      "div",
+                      {
+                        class: {
+                          "container-check-question":
+                            img.question_assessments !== null,
+                        },
+                      },
+                      [
+                        _c("img", {
+                          attrs: {
+                            src: "../" + img.image_assessment.path,
+                            alt: "Cinque Terre",
+                            width: "600",
+                            height: "400",
+                          },
+                        }),
+                        _vm._v(" "),
+                        img.question_assessments !== null
+                          ? _c(
+                              "div",
+                              {
+                                class: {
+                                  "center-check-question":
+                                    img.question_assessments !== null,
+                                },
+                              },
+                              [_vm._v("Realizado")]
+                            )
+                          : _vm._e(),
+                      ]
+                    ),
+                  ]
+                )
+              }),
+              0
+            ),
+          ]),
+        ])
+      : _vm._e(),
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -67627,6 +67943,8 @@ var render = function () {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(img.user.name))]),
                       _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(img.type_image))]),
+                      _vm._v(" "),
                       _c("td", [
                         _c("img", {
                           staticClass: "img-thumbnail",
@@ -67662,6 +67980,8 @@ var staticRenderFns = [
         _c("th", [_vm._v("Nombre")]),
         _vm._v(" "),
         _c("th", [_vm._v("Quien lo cargo")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Tipo")]),
         _vm._v(" "),
         _c("th", [_vm._v("Image")]),
       ]),
@@ -67716,11 +68036,69 @@ var render = function () {
                 on: { submit: _vm.formSubmit },
               },
               [
-                _c("input", {
-                  ref: "file",
-                  staticClass: "form-control",
-                  attrs: { type: "file", multiple: "multiple" },
-                }),
+                _c("div", { staticClass: "form-group col-md-2" }, [
+                  _c("label", { attrs: { for: "tipeImage" } }, [
+                    _vm._v("Tipo de imagenes"),
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.type_image,
+                          expression: "type_image",
+                        },
+                      ],
+                      staticClass: "form-control",
+                      attrs: { id: "tipeImage" },
+                      on: {
+                        change: function ($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function (o) {
+                              return o.selected
+                            })
+                            .map(function (o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.type_image = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        },
+                      },
+                    },
+                    [
+                      _c("option", { attrs: { value: "" } }, [
+                        _vm._v("Seleccione"),
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "patient" } }, [
+                        _vm._v("Pacientes"),
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "option",
+                        { attrs: { value: "castastrofes_naturales" } },
+                        [_vm._v("Castastrofes naturales")]
+                      ),
+                    ]
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group col-md-12" }, [
+                  _c("label", { attrs: { for: "tipeImage" } }, [
+                    _vm._v("Puede cargas varias imagenes"),
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    ref: "file",
+                    staticClass: "form-control",
+                    attrs: { type: "file", multiple: "multiple" },
+                  }),
+                ]),
                 _vm._v(" "),
                 _c("button", { staticClass: "btn btn-primary btn-block" }, [
                   _vm._v("Cargar"),
@@ -69023,27 +69401,17 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c("div", [
     _vm.open
-      ? _c("div", { staticClass: "modal-images" }, [_vm._m(0)])
+      ? _c("div", { staticClass: "modal-images" }, [
+          _c("div", { staticClass: "mt-2" }, [
+            _c("div", { staticClass: "slide-item" }, [
+              _c("img", { attrs: { src: "../" + _vm.path, align: "center" } }),
+            ]),
+          ]),
+        ])
       : _vm._e(),
   ])
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "mt-2" }, [
-      _c("div", { staticClass: "slide-item" }, [
-        _c("img", {
-          attrs: {
-            src: "http://localhost:8000/images/espiritual/iVweT4b2s2INOApCNzzm4v9X1AyDk70fTplGiR0x.jpg",
-            align: "center",
-          },
-        }),
-      ]),
-    ])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -90347,7 +90715,7 @@ var index = {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"_from":"axios@^0.21","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"range","registry":true,"raw":"axios@^0.21","name":"axios","escapedName":"axios","rawSpec":"^0.21","saveSpec":null,"fetchSpec":"^0.21"},"_requiredBy":["#DEV:/","#USER"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_shasum":"c67b90dc0568e5c1cf2b0b858c43ba28e2eda575","_spec":"axios@^0.21","_where":"C:\\\\xampp\\\\htdocs\\\\proyecto-espiritual\\\\laravelVuejsBase","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundleDependencies":false,"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"deprecated":false,"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
+module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"Promise based HTTP client for the browser and node.js","main":"index.js","scripts":{"test":"grunt test","start":"node ./sandbox/server.js","build":"NODE_ENV=production grunt build","preversion":"npm test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json","postversion":"git push && git push --tags","examples":"node ./examples/server.js","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","fix":"eslint --fix lib/**/*.js"},"repository":{"type":"git","url":"https://github.com/axios/axios.git"},"keywords":["xhr","http","ajax","promise","node"],"author":"Matt Zabriskie","license":"MIT","bugs":{"url":"https://github.com/axios/axios/issues"},"homepage":"https://axios-http.com","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"jsdelivr":"dist/axios.min.js","unpkg":"dist/axios.min.js","typings":"./index.d.ts","dependencies":{"follow-redirects":"^1.14.0"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}]}');
 
 /***/ })
 

@@ -13,6 +13,7 @@
                                     <th>ID</th>
                                     <th>Nombre</th>
                                     <th>Quien lo cargo</th>
+                                    <th>Tipo</th>
                                     <th>Image</th>
                                     <!-- <th>Actions</th> -->
                                 </tr>
@@ -22,6 +23,7 @@
                                     <td>{{ img.id }}</td>
                                     <td>{{ img.name }}</td>
                                     <td>{{ img.user.name }}</td>
+                                    <td>{{ img.type_image }}</td>
                                     <td><img v-bind:src="'../'+img.path" class="img-thumbnail"  width="130" height="30"></td>
                                 </tr>
                             </tbody>

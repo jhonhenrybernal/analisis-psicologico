@@ -20,7 +20,7 @@ Vue.use(require('vue-moment'));
  * @description Base url para iniciar oyente url global
  */
 axios.defaults.withCredentials = true
-axios.defaults.baseURL= 'http://192.168.10.11:8000/api/'
+axios.defaults.baseURL= 'http://192.168.10.18:8000/api/'
 const token = localStorage.getItem('token')
 if(token){
   axios.defaults.headers.common['Authorization'] = token

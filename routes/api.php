@@ -44,6 +44,10 @@ Route::group(['middleware'=>'jwt.verify'],function(){
     Route::post('/assessments/process/add-pre-image', [App\Http\Controllers\ProcessAssessmentController::class, 'addPreSelect']); 
     Route::get('/assessments/process/all-image-select/{id}', [App\Http\Controllers\ProcessAssessmentController::class, 'allImageSelect']); 
     Route::get('/assessments/process/therapy/{type}/{id}', [App\Http\Controllers\ProcessAssessmentController::class, 'therapy']); 
-    Route::get('/assessments/process/video/play/{action}/{id}', [App\Http\Controllers\ProcessAssessmentController::class, 'videoPlay']);   
+    Route::get('/assessments/process/video/play/{action}/{id}', [App\Http\Controllers\ProcessAssessmentController::class, 'videoPlay']); 
+    Route::get('/assessments/process/image/selected/{id}', [App\Http\Controllers\ProcessAssessmentController::class, 'imageSelected']);   
+    Route::get('/assessments/process/questions/selected/{id}', [App\Http\Controllers\ProcessAssessmentController::class, 'questionsSelected']);
+    Route::post('/assessments/process/questions/send/image', [App\Http\Controllers\ProcessAssessmentController::class, 'questionsSendImage']);
+    Route::post('/assessments/process/questions/image/find', [App\Http\Controllers\ProcessAssessmentController::class, 'questionsImageFind']);      
     //Route::resource('todos','TodoController');
 });
