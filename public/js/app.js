@@ -6028,7 +6028,7 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
       }
 
       if (tipo == 'naturales') {
-        this.routeName = "naturalDisasterImages";
+        this.routeName = "naturalDisasterImage";
       }
 
       this.$router.push({
@@ -6225,20 +6225,133 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
-    return {};
+    return {
+      listImage: [],
+      listQuestion: [],
+      imgSelect: '',
+      initQuestions: false,
+      idImage: 0,
+      finQuestion: false,
+      initListQuestions: false,
+      isImagePatient: false,
+      questionImages: true
+    };
   },
   created: function created() {
-    var _this = this;
-
-    this.$store.dispatch("getRequest", "assessments").then(function (respo) {
-      _this.assessment = respo.data.data;
-    })["catch"](function (err) {
-      return _this.error(err);
-    });
+    this.init();
   },
-  methods: {}
+  methods: {
+    inicioPregunta: function inicioPregunta() {
+      this.isImagePatient = true;
+      this.findImage(this.listImage);
+      this.initQuestions = true;
+      this.initListQuestions = true;
+    },
+    selectQuestion: function selectQuestion(id) {
+      var _this = this;
+
+      console.log(this.idImage);
+      axios.post("/assessments/process/questions/image/find", {
+        id_asessment: this.$route.params.id_asessment,
+        id_image: this.idImage,
+        question_id: id
+      }).then(function (response) {
+        _this.init();
+
+        _this.isImagePatient = true;
+      })["catch"](function (e) {});
+    },
+    init: function init() {
+      var _this2 = this;
+
+      axios.get("/assessments/process/image-disaster/selected/" + this.$route.params.id_asessment, {}).then(function (response) {
+        if (response.data.status == 'error') {
+          if (response.data.message == 'fin') {
+            _this2.questionImages = false;
+
+            _this2.sendImagePatient('fin');
+
+            return;
+          }
+        }
+
+        console.log(response);
+        _this2.listImage = response.data.data;
+
+        _this2.findImage(_this2.listImage);
+      })["catch"](function (e) {
+        console.log(e);
+      });
+      axios.get("/assessments/process/questions/selected/" + this.$route.params.id_asessment, {}).then(function (response) {
+        _this2.listQuestion = response.data.data;
+      })["catch"](function (e) {});
+    },
+    findImage: function findImage(list) {
+      var images = list.find(function (ele) {
+        return ele.question_assessments == null;
+      });
+      console.log(images);
+
+      if (images == undefined) {
+        this.imgSelect = '';
+        this.idImage = '';
+        this.finQuestion = true;
+        this.initListQuestions = false;
+        this.sendImagePatient('fin');
+        return;
+      }
+
+      this.imgSelect = images.path;
+      this.idImage = images.id;
+
+      if (this.isImagePatient) {
+        this.sendImagePatient(this.imgSelect);
+      }
+    },
+    sendImagePatient: function sendImagePatient(img) {
+      axios.post("/assessments/process/questions/send/image", {
+        id_asessment: this.$route.params.id_asessment,
+        id_image: this.idImage,
+        pathImg: img
+      }).then(function (response) {})["catch"](function (e) {});
+    }
+  }
 });
 
 /***/ }),
@@ -8074,7 +8187,7 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
           }
 
           if (e.params.evento == 'naturales') {
-            _this.routeName = "stepFive";
+            _this.routeName = "stepFourt";
           }
 
           _this.$router.push({
@@ -67456,7 +67569,146 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("div", [
+    _vm.questionImages
+      ? _c("div", { staticClass: "container-select-event" }, [
+          _c("div", { staticClass: "dinamic-select-event" }, [
+            !_vm.initQuestions
+              ? _c("div", { staticClass: "container-button-select-event" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function ($event) {
+                          return _vm.inicioPregunta()
+                        },
+                      },
+                    },
+                    [
+                      _vm._v(
+                        "\n                    Iniciar Preguntas\n                "
+                      ),
+                    ]
+                  ),
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.initQuestions
+              ? _c("div", { staticClass: "container" }, [
+                  !_vm.finQuestion
+                    ? _c("img", {
+                        staticClass: "image-selected-event",
+                        attrs: {
+                          src: "../" + this.imgSelect,
+                          alt: "Cinque Terre",
+                          width: "46",
+                          height: "80",
+                        },
+                      })
+                    : _vm._e(),
+                ])
+              : _vm._e(),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "Content-select-event" }, [
+            _vm.finQuestion
+              ? _c("div", { staticClass: "container" }, [
+                  _c("h2", [_vm._v("Fin")]),
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.initListQuestions
+              ? _c(
+                  "div",
+                  { staticClass: "container" },
+                  [
+                    _c("h2", [_vm._v("Lista de preguntas")]),
+                    _vm._v(" "),
+                    _vm._l(_vm.listQuestion, function (list) {
+                      return _c(
+                        "ul",
+                        { key: list.id, staticClass: "list-group" },
+                        [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "form-control",
+                              on: {
+                                click: function ($event) {
+                                  return _vm.selectQuestion(list.id)
+                                },
+                              },
+                            },
+                            [
+                              _c("li", { staticClass: "list-group-item" }, [
+                                _vm._v(_vm._s(list.question)),
+                              ]),
+                            ]
+                          ),
+                        ]
+                      )
+                    }),
+                  ],
+                  2
+                )
+              : _vm._e(),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "Sidebar-select-event" }, [
+            _c(
+              "div",
+              { staticClass: "row-images" },
+              _vm._l(_vm.listImage, function (img) {
+                return _c(
+                  "div",
+                  {
+                    key: img.id,
+                    staticClass: "column-images image-select-event",
+                  },
+                  [
+                    _c(
+                      "div",
+                      {
+                        class: {
+                          "container-check-question":
+                            img.question_assessments !== null,
+                        },
+                      },
+                      [
+                        _c("img", {
+                          attrs: {
+                            src: "../" + img.path,
+                            alt: "Cinque Terre",
+                            width: "600",
+                            height: "400",
+                          },
+                        }),
+                        _vm._v(" "),
+                        img.question_assessments !== null
+                          ? _c(
+                              "div",
+                              {
+                                class: {
+                                  "center-check-question":
+                                    img.question_assessments !== null,
+                                },
+                              },
+                              [_vm._v("Realizado")]
+                            )
+                          : _vm._e(),
+                      ]
+                    ),
+                  ]
+                )
+              }),
+              0
+            ),
+          ]),
+        ])
+      : _vm._e(),
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

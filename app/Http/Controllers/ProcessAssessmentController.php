@@ -157,6 +157,17 @@ class ProcessAssessmentController extends Controller
          
     }
 
+    public function imageDisasterSelected($id){
+        $finImagenesPreguntas = Status::where('name','fin_imagenes_preguntas')->value('id');
+        $processAssessment = ProcessAssessment::where('status_id',$finImagenesPreguntas)->where('assessment_id', $id)->first();
+        if ($processAssessment) {
+            return response()->json(['status'=>'error', 'message' => 'fin', 'data'=> ''], 200);
+        }
+        $imageQuestionAssessment = ImagesAssessment::where('type_image','castastrofes_naturales')->with('questionAssessments')->get();
+        return response()->json(['status'=>'ok', 'message' => '', 'data'=> $imageQuestionAssessment], 200); 
+    }
+    
+
     public function push($messagge,$status,$params,$channel){
         event(new \App\Events\patientProcess($messagge,$status,$params,$channel));
     }

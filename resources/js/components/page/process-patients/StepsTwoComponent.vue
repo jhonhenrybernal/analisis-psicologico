@@ -125,7 +125,7 @@ export default {
           }
 
           if(e.params.evento == 'naturales'){
-            this.routeName = "stepFive"
+            this.routeName = "stepFourt"
           }
 
           this.$router.push({

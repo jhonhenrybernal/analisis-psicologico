@@ -48,6 +48,7 @@ Route::group(['middleware'=>'jwt.verify'],function(){
     Route::get('/assessments/process/image/selected/{id}', [App\Http\Controllers\ProcessAssessmentController::class, 'imageSelected']);   
     Route::get('/assessments/process/questions/selected/{id}', [App\Http\Controllers\ProcessAssessmentController::class, 'questionsSelected']);
     Route::post('/assessments/process/questions/send/image', [App\Http\Controllers\ProcessAssessmentController::class, 'questionsSendImage']);
-    Route::post('/assessments/process/questions/image/find', [App\Http\Controllers\ProcessAssessmentController::class, 'questionsImageFind']);      
+    Route::post('/assessments/process/questions/image/find', [App\Http\Controllers\ProcessAssessmentController::class, 'questionsImageFind']);
+    Route::get('/assessments/process/image-disaster/selected/{id}', [App\Http\Controllers\ProcessAssessmentController::class, 'imageDisasterSelected']);   
     //Route::resource('todos','TodoController');
 });

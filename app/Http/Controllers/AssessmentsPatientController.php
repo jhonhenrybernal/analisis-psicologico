@@ -68,7 +68,7 @@ class AssessmentsPatientController extends Controller
         $listImageSelect = ImagesQuestionAssessments::where('process_assessments_id',$processAssessment->id)->get()->toArray();
         $collection = collect($listImageSelect);
         $imagesSelecteds = $collection->pluck('image_id');
-        $imagesAssessment = ImagesAssessment::whereNotIn('id',$imagesSelecteds)->get();
+        $imagesAssessment = ImagesAssessment::whereNotIn('id',$imagesSelecteds)->where('type_image','patient')->get();
         return response()->json(['status'=>true, 'message' => '', 'data'=> $imagesAssessment], 200);
     }
 

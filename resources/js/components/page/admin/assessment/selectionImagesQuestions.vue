@@ -172,7 +172,7 @@ export default {
                 }
 
                 if(tipo == 'naturales'){
-                    this.routeName = "naturalDisasterImages"
+                    this.routeName = "naturalDisasterImage"
                 }
                 this.$router.push({
                     name: this.routeName,
